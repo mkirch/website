@@ -12,8 +12,8 @@ class BoostPages {
         $this->root = $root;
         $this->hash_file = "{$root}/{$hash_file}";
 
-        if (is_file($hash_file)) {
-            foreach(BoostState::load($hash_file) as $qbk_file => $record) {
+        if (is_file($this->hash_file)) {
+            foreach(BoostState::load($this->hash_file) as $qbk_file => $record) {
                 $this->pages[$qbk_file]
                     = new BoostPages_Page($qbk_file, $record);
             }
@@ -75,7 +75,7 @@ class BoostPages {
                 $xml_filename = tempnam(sys_get_temp_dir(), 'boost-qbk-');
                 try {
                     echo "Converting ", $page, ":\n";
-                    BoostSuperProject::run_process("quickbook --output-file {$xml_filename} -I feed {$this->root}/{$page}");
+                    BoostSuperProject::run_process("quickbook --output-file {$xml_filename} -I {$this->root}/feed {$this->root}/{$page}");
                     $page_data->load($bb_parser->parse($xml_filename), $refresh);
                 } catch (Exception $e) {
                     unlink($xml_filename);
@@ -124,7 +124,8 @@ EOL;
 EOL;
                 }
 
-                self::write_template($page_data->location,
+                self::write_template(
+                    "{$this->root}/{$page_data->location}",
                     __DIR__."/templates/entry.php",
                     $template_vars);
             }
@@ -318,24 +319,55 @@ class BoostPages_Page {
         }
     }
 
-    function download_table() {
-        if (!$this->download_item) { return ''; }
-        if ($this->type == 'release' && empty($this->flags['beta']) && empty($this->flags['released'])) {
-            return '';
-        }
-
-        $downloads = null;
-
-        if ($this->download_basename) {
-            $downloads = array(
-                'unix' => array($this->download_basename.'.tar.bz2', $this->download_basename.'.tar.gz'),
-                'windows' => array($this->download_basename.'.7z', $this->download_basename.'.zip'),
+    function download_table_data() {
+        if (strpos($this->download_basename, 'boost_1_61_0') === 0) {
+            return array(
+                'downloads' => array(
+                    'unix' => array(
+                        array(
+                            'url' => "https://bintray.com/artifact/download/boostorg/release/boost_1_61_0_b1.tar.bz2",
+                            'sha256' => '866941f0038b27fcc69ced1490b2dc5fa8d20f505d66b939a92a68ef194d1a6c',
+                        ),
+                        array(
+                            'url' => "https://bintray.com/artifact/download/boostorg/release/boost_1_61_0_b1.tar.gz",
+                            'sha256' => '0b92c5fb5b91641409b9675b2fd11d3b3fa5f71dd986d3b5fb03da201bf55474',
+                        ),
+                    ),
+                    'windows' => array(
+                        array(
+                            'url' => "https://bintray.com/artifact/download/boostorg/release/boost_1_61_0_b1.7z",
+                            'sha256' => '3f8888099ee6f62b412a13be916dead2bacbdd6d69e5afd5b6fea4bb738e5df4',
+                        ),
+                        array(
+                            'url' => "https://bintray.com/artifact/download/boostorg/release/boost_1_61_0_b1.zip",
+                            'sha256' => '9dffe5ee7f5f7bf7695f5738c686e44bd266933e3ca68732b0de5520c3c82615',
+                        ),
+                    ),
+                ),
+                'signature' => array(
+                    'location' => 'users/download/signatures/boost_1_61_0_b1.sums.asc',
+                    'name' => 'Vladimir Prus',
+                    'key' => 'https://pgp.mit.edu/pks/lookup?op=get&search=0xDA472E8659753BA4',
+                ),
             );
+        }
+        else if ($this->download_basename) {
+            $url_base = "{$this->download_item}{$this->download_basename}";
+            return array('downloads' => array(
+                'unix' => array(
+                    array('url' => "{$url_base}.tar.bz2"),
+                    array('url' => "{$url_base}.tar.gz"),
+                ),
+                'windows' => array(
+                    array('url' => "{$url_base}.7z"),
+                    array('url' => "{$url_base}.zip"),
+                ),
+            ));
         } else if (preg_match('@.*/boost/(\d+)\.(\d+)\.(\d+)/@', $this->download_item, $match)) {
             $major = intval($match[1]);
             $minor = intval($match[2]);
             $point = intval($match[3]);
-            $base_name = "boost_{$match[1]}_{$match[2]}_{$match[3]}";
+            $url_base = "{$this->download_item}boost_{$match[1]}_{$match[2]}_{$match[3]}";
 
             # Pick which files are available by examining the version number.
             # This could possibly be meta-data in the rss feed instead of being
@@ -344,20 +376,48 @@ class BoostPages_Page {
             # TODO: Key order hardcoded later.
 
             $downloads = array(
-                'unix' => array($base_name.'.tar.bz2', $base_name.'.tar.gz'),
+                'unix' => array(
+                    array('url' => $url_base.'.tar.bz2'),
+                    array('url' => $url_base.'.tar.gz'),
+                ),
                 'windows' => array()
             );
 
             if ($major == 1 && $minor >= 32 && $minor <= 33) {
-                $downloads['windows'][] = $base_name.'.exe';
+                $downloads['windows'][] = array('url' => $url_base.'.exe');
             } else if ($major > 1 || $minor > 34 || ($minor == 34 && $point == 1)) {
-                $downloads['windows'][] = $base_name.'.7z';
+                $downloads['windows'][] = array('url' => $url_base.'.7z');
             }
-            $downloads['windows'][] = $base_name.'.zip';
+            $downloads['windows'][] = array('url' => $url_base.'.zip');
+            return array('downloads' => $downloads);
         }
+        else {
+            return $this->download_item;
+        }
+    }
 
-        if ($downloads !== null) {
+    function download_table() {
+        // TODO: Removing this temporarily so I can add the download links
+        //       without putting the release notes on the front page.
+        //       Might remove this code permananently, I'm not sure if it
+        //       does any good.
+        //if ($this->type == 'release' && empty($this->flags['beta']) && empty($this->flags['released'])) {
+        //    return '';
+        //}
+
+        $downloads = $this->download_table_data();
+
+        if (is_array($downloads)) {
             # Print the download table.
+
+            $hash_column = false;
+            foreach($downloads['downloads'] as $x) {
+                foreach($x as $y) {
+                    if (array_key_exists('sha256', $y)) {
+                        $hash_column = true;
+                    }
+                }
+            }
 
             $output = '';
             $output .= '              <table class="download-table">';
@@ -366,38 +426,65 @@ class BoostPages_Page {
             } else {
                 $output .= '<caption>Downloads</caption>';
             }
-            $output .= '<tr><th scope="col">Platform</th><th scope="col">File</th></tr>';
+            $output .= '<tr><th scope="col">Platform</th><th scope="col">File</th>';
+            if ($hash_column) {
+                $output .= '<th scope="col">SHA256 Hash</th>';
+            }
+            $output .= '</tr>';
 
             foreach (array('unix', 'windows') as $platform) {
-                $files = $downloads[$platform];
+                $platform_downloads = $downloads['downloads'][$platform];
                 $output .= "\n";
                 $output .= '<tr><th scope="row"';
-                if (count($files) > 1) {
-                    $output .= ' rowspan="'.count($files).'"';
+                if (count($platform_downloads) > 1) {
+                    $output .= ' rowspan="'.count($platform_downloads).'"';
                 }
                 $output .= '>'.html_encode($platform).'</th>';
                 $first = true;
-                foreach ($files as $file) {
+                foreach ($platform_downloads as $download) {
                     if (!$first) { $output .= '<tr>'; }
                     $first = false;
 
+                    $file_name = basename(parse_url($download['url'], PHP_URL_PATH));
+
                     $output .= '<td><a href="';
-                    $output .= html_encode("{$this->download_item}{$file}/download");
+                    if (strpos($download['url'], 'sourceforge') !== false) {
+                        // TODO: Probably shouldn't add '/download' any more,
+                        //       but keeping to minimise changes in generated
+                        //       files for now.
+                        $output .= html_encode("{$download['url']}/download");
+                    }
+                    else {
+                        $output .= html_encode($download['url']);
+                    }
                     $output .= '">';
-                    $output .= html_encode($file);
+                    $output .= html_encode($file_name);
                     $output .= '</a></td>';
+                    if ($hash_column) {
+                        $output .= '<td>';
+                        $output .= html_encode($this->array_get($download, 'sha256'));
+                        $output .= '</td>';
+                    }
                     $output .= '</tr>';
                 }
             }
 
             $output .= '</table>';
+
+            if (array_key_exists('signature', $downloads)) {
+                $output .= "<p><a href='/".html_encode($downloads['signature']['location']).
+                    "'>List of checksums</a> signed by ".
+                    "<a href='".html_encode($downloads['signature']['key'])."'>".
+                    html_encode($downloads['signature']['name'])."</a></p>.\n";
+            }
+
             return $output;
-        } else {
+        } else if (is_string($downloads)) {
             # If the link didn't match the normal version number pattern
             # then just use the old fashioned link to sourceforge. */
 
             $output = '              <p><span class="news-download"><a href="'.
-                html_encode($this->download_item).'">';
+                html_encode($downloads).'">';
 
             if (!empty($this->flags['beta'])) {
                 $output .= 'Download this beta release.';
@@ -408,6 +495,9 @@ class BoostPages_Page {
             $output .= '</a></span></p>';
 
             return $output;
+        }
+        else {
+            return '';
         }
     }
 

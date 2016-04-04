@@ -2390,15 +2390,17 @@
 (feed/history/boost_1_61_0.qbk
 -dir_location
 -documentation
-"/doc/libs/master/
+"/doc/libs/1_61_0_b1/
 -download
+"https://bintray.com/boostorg/release/boost/1.61.0.beta.1/view
 -download_basename
+"boost_1_61_0_b1
 -final_documentation
 "/doc/libs/1_61_0/
 -id
 "version_1_61_0
 -last_modified
-=1457180454
+=1459800603
 -location
 "users/history/version_1_61_0.html
 -notice
@@ -2408,12 +2410,14 @@
 "In Progress
 -purpose
 "
-"      New Libraries: Updated Libraries:
+"      New Libraries: Compute, DLL, Hana, Metaparse. Updated Libraries: Any, Container,
+"      Context, Coroutine, Coroutine2, Fusion, Geometry, Interprocess, Intrusive,
+"      Lexical Cast, Log, Move, Optional, Test, Variant.
 "
 -qbk_hash
-"750c0d753d6637adca2b36da28763d70d9eccc9a0c1526b7f607af1b2e23f27b
+"2aa01e3c62d7a8484864b34d2f1215e2b88105ce81bdf683aad8f798a8d6be50
 -release_status
-"dev
+"beta
 -title
 "Version 1.61.0
 -type
