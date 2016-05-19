@@ -2390,24 +2390,23 @@
 (feed/history/boost_1_61_0.qbk
 -dir_location
 -documentation
-"/doc/libs/1_61_0_b1/
--download
-"https://bintray.com/boostorg/release/boost/1.61.0.beta.1/view
--download_basename
-"boost_1_61_0_b1
--final_documentation
 "/doc/libs/1_61_0/
+-download
+"https://sourceforge.net/projects/boost/files/boost/1.61.0/
+-download_basename
+"boost_1_61_0
+-final_documentation
 -id
 "version_1_61_0
 -last_modified
-=1459891766
+=1463108308
 -location
 "users/history/version_1_61_0.html
 -notice
 -notice_url
 -page_state
 -pub_date
-"In Progress
+"Thu, 12 May 2016 21:58:28 -0500
 -purpose
 "
 "      New Libraries: Compute, DLL, Hana, Metaparse. Updated Libraries: Any, Container,
@@ -2415,9 +2414,9 @@
 "      Lexical Cast, Log, Move, Optional, Test, Variant.
 "
 -qbk_hash
-"2aa01e3c62d7a8484864b34d2f1215e2b88105ce81bdf683aad8f798a8d6be50
+"3439a58101d2234ec3d491ba3a7f5c5caad7b66f51158215d6935740fe049afa
 -release_status
-"beta
+"released
 -title
 "Version 1.61.0
 -type

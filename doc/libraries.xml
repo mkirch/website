@@ -529,8 +529,18 @@
   <library>
     <key>compute</key>
     <module>compute</module>
-    <boost-version>unreleased</boost-version>
-    <update-version>master</update-version>
+    <boost-version>1.61.0 beta1</boost-version>
+    <name>Compute</name>
+    <authors>Kyle Lutz</authors>
+    <maintainers>Kyle Lutz &lt;kyle.r.lutz -at- gmail.com&gt;</maintainers>
+    <description>Parallel/GPU-computing library</description>
+    <documentation>libs/compute/</documentation>
+    <category>Concurrent</category>
+  </library>
+  <library>
+    <key>compute</key>
+    <module>compute</module>
+    <boost-version>1.61.0</boost-version>
     <name>Compute</name>
     <authors>Kyle Lutz</authors>
     <maintainers>Kyle Lutz &lt;kyle.r.lutz -at- gmail.com&gt;</maintainers>
@@ -541,7 +551,7 @@
   <library>
     <key>compute</key>
     <module>libs/compute</module>
-    <boost-version>unreleased</boost-version>
+    <boost-version>1.61.0</boost-version>
     <update-version>develop</update-version>
     <name>Compute</name>
     <authors>Kyle Lutz</authors>
@@ -713,7 +723,7 @@
     <key>convert</key>
     <module>convert</module>
     <boost-version>1.59.0</boost-version>
-    <update-version>master</update-version>
+    <update-version>1.61.0 beta1</update-version>
     <name>Convert</name>
     <authors>Vladimir Batov</authors>
     <maintainers>Vladimir Batov &lt;vbmail247 -at- gmail.com&gt;</maintainers>
@@ -882,8 +892,19 @@
   <library>
     <key>dll</key>
     <module>dll</module>
-    <boost-version>unreleased</boost-version>
-    <update-version>master</update-version>
+    <boost-version>1.61.0 beta1</boost-version>
+    <name>DLL</name>
+    <authors>Antony Polukhin</authors>
+    <authors>Renato Tegon Forti</authors>
+    <maintainers>Antony Polukhin &lt;antoshkka -at- gmail.com&gt;</maintainers>
+    <description>Library for comfortable work with DLL and DSO.</description>
+    <documentation>libs/dll/</documentation>
+    <category>System</category>
+  </library>
+  <library>
+    <key>dll</key>
+    <module>dll</module>
+    <boost-version>1.61.0</boost-version>
     <name>DLL</name>
     <authors>Antony Polukhin</authors>
     <authors>Renato Tegon Forti</authors>
@@ -895,7 +916,7 @@
   <library>
     <key>dll</key>
     <module>libs/dll</module>
-    <boost-version>unreleased</boost-version>
+    <boost-version>1.61.0</boost-version>
     <update-version>develop</update-version>
     <name>DLL</name>
     <authors>Antony Polukhin</authors>
@@ -986,7 +1007,7 @@
     <key>endian</key>
     <module>endian</module>
     <boost-version>1.58.0</boost-version>
-    <update-version>master</update-version>
+    <update-version>1.61.0 beta1</update-version>
     <name>Endian</name>
     <authors>Beman Dawes</authors>
     <maintainers>Beman Dawes &lt;bdawes -at- acm.org&gt;</maintainers>
@@ -1044,7 +1065,7 @@
     <key>flyweight</key>
     <module>flyweight</module>
     <boost-version>1.38.0</boost-version>
-    <update-version>master</update-version>
+    <update-version>1.61.0 beta1</update-version>
     <name>Flyweight</name>
     <authors>Joaqu&#237;n M L&#243;pez Mu&#241;oz</authors>
     <maintainers>Joaquin M Lopez Munoz &lt;joaquin.lopezmunoz -at- gmail.com&gt;</maintainers>
@@ -1404,8 +1425,18 @@
   <library>
     <key>hana</key>
     <module>libs/hana</module>
-    <boost-version>unreleased</boost-version>
-    <update-version>master</update-version>
+    <boost-version>1.61.0 beta1</boost-version>
+    <name>Hana</name>
+    <authors>Louis Dionne</authors>
+    <maintainers>Louis Dionne &lt;ldionne.2 -at- gmail.com&gt;</maintainers>
+    <description>A modern C++ metaprogramming library. It provides high level algorithms to manipulate heterogeneous sequences, allows writing type-level computations with a natural syntax, provides tools to introspect user-defined types and much more.</description>
+    <documentation>libs/hana/</documentation>
+    <category>Metaprogramming</category>
+  </library>
+  <library>
+    <key>hana</key>
+    <module>libs/hana</module>
+    <boost-version>1.61.0</boost-version>
     <name>Hana</name>
     <authors>Louis Dionne</authors>
     <maintainers>Louis Dionne &lt;ldionne.2 -at- gmail.com&gt;</maintainers>
@@ -1647,7 +1678,7 @@
     <key>lexical_cast</key>
     <module>lexical_cast</module>
     <boost-version>1.20.0</boost-version>
-    <update-version>master</update-version>
+    <update-version>1.61.0 beta1</update-version>
     <name>Lexical Cast</name>
     <authors>Kevlin Henney</authors>
     <maintainers>Antony Polukhin &lt;antoshkka -at- gmail.com&gt;</maintainers>
@@ -1873,8 +1904,18 @@
   <library>
     <key>metaparse</key>
     <module>libs/metaparse</module>
-    <boost-version>unreleased</boost-version>
-    <update-version>master</update-version>
+    <boost-version>1.61.0 beta1</boost-version>
+    <name>Metaparse</name>
+    <authors>Abel Sinkovics</authors>
+    <maintainers>Abel Sinkovics &lt;abel -at- elte.hu&gt;</maintainers>
+    <description>A library for generating compile time parsers parsing embedded DSL code as part of the C++ compilation process</description>
+    <documentation>libs/metaparse/</documentation>
+    <category>Metaprogramming</category>
+  </library>
+  <library>
+    <key>metaparse</key>
+    <module>libs/metaparse</module>
+    <boost-version>1.61.0</boost-version>
     <name>Metaparse</name>
     <authors>Abel Sinkovics</authors>
     <maintainers>Abel Sinkovics &lt;abel -at- elte.hu&gt;</maintainers>
@@ -2002,7 +2043,7 @@
     <key>multi_index</key>
     <module>multi_index</module>
     <boost-version>1.32.0</boost-version>
-    <update-version>master</update-version>
+    <update-version>1.61.0 beta1</update-version>
     <name>Multi-Index</name>
     <authors>Joaqu&#237;n M L&#243;pez Mu&#241;oz</authors>
     <maintainers>Joaquin M Lopez Munoz &lt;joaquin.lopezmunoz -at- gmail.com&gt;</maintainers>
@@ -2258,7 +2299,7 @@
     <key>optional</key>
     <module>optional</module>
     <boost-version>1.30.0</boost-version>
-    <update-version>master</update-version>
+    <update-version>1.61.0 beta1</update-version>
     <name>Optional</name>
     <authors>Fernando Cacciola</authors>
     <maintainers>Fernando Cacciola &lt;fernando_cacciola -at- ciudad.com.ar&gt;</maintainers>
@@ -2476,7 +2517,7 @@
     <key>program_options</key>
     <module>program_options</module>
     <boost-version>1.32.0</boost-version>
-    <update-version>master</update-version>
+    <update-version>1.61.0 beta1</update-version>
     <name>Program Options</name>
     <authors>Vladimir Prus</authors>
     <maintainers>Vladimir Prus &lt;vladimir.prus -at- gmail.com&gt;</maintainers>
@@ -2591,6 +2632,20 @@
     <description>The Boost Python Library is a framework for interfacing Python and C++. It allows you to quickly and seamlessly expose C++ classes functions and objects to Python, and vice-versa, using no special tools -- just your C++ compiler.</description>
     <documentation>libs/python/</documentation>
     <category>Inter-language</category>
+  </library>
+  <library>
+    <key>qvm</key>
+    <module>libs/qvm</module>
+    <boost-version>unreleased</boost-version>
+    <update-version>develop</update-version>
+    <name>QVM</name>
+    <authors>Emil Dotchevski</authors>
+    <maintainers>Emil Dotchevski &lt;emil@revergestudios.com&gt;</maintainers>
+    <description>Boost QVM is a generic library for working with quaternions, vectors and matrices of static size with the emphasis on 2, 3 and 4-dimensional operations needed in graphics, video games and simulation applications.</description>
+    <documentation>libs/qvm/doc/index.html</documentation>
+    <category>Algorithms</category>
+    <category>Generic</category>
+    <category>Math</category>
   </library>
   <library>
     <key>random</key>
@@ -3521,7 +3576,7 @@
     <key>utility</key>
     <module>utility</module>
     <boost-version>1.13.0</boost-version>
-    <update-version>master</update-version>
+    <update-version>1.61.0 beta1</update-version>
     <name>Utility</name>
     <authors>Dave Abrahams and others</authors>
     <description>Class noncopyable plus checked_delete(), checked_array_delete(), next(), prior() function templates, plus base-from-member idiom.</description>

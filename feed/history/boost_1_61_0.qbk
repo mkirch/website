@@ -9,19 +9,18 @@
         Fusion, Geometry, Interprocess, Intrusive,
         Lexical Cast, Log, Move, Optional, Test, Variant.
     ]
-    [authors [Dawes, Beman]]
+    [authors [Rivera, Rene]]
     [/ last-revision is used for the final release date]
-    [last-revision ]
+    [last-revision Thu, 12 May 2016 21:58:28 -0500]
 ]
 
 [import ext.qbk]
 
 [/ Add attributes here as release progresses. See end of file for details. ]
-[status beta]
-[documentation /doc/libs/1_61_0_b1/]
-[final_documentation /doc/libs/1_61_0/]
-[download_basename boost_1_61_0_b1]
-[download https://bintray.com/boostorg/release/boost/1.61.0.beta.1/view]
+[status released]
+[documentation /doc/libs/1_61_0/]
+[download_basename boost_1_61_0]
+[download https://sourceforge.net/projects/boost/files/boost/1.61.0/]
 
 [section New Libraries]
 
@@ -78,7 +77,9 @@
   * [ticket 11246] fails to build for mingw because of undefined symbols
   * [ticket 11365] execution_context.hpp gives errors when building with VS2015RC
   * [ticket 11652] checking __cpp_lib_integer_sequence
+  * [ticket 11946] crashes on x86_64/MinGW
   * fcontext_t: no longer part of public API
+  * support for WinFiber API removed
   * execution_context: relaxed to C++11
   * execution_context: type-safe transfer of data
   * execution_context: execute function on top of stack
@@ -98,12 +99,33 @@
   * Mitigate massive warnings about use of `BOOST_PP_IS_EMPTY` on MSVC8. [ticket 11157]
   * Container's conversion ctor and SFINAE. [ticket 11766]
   * Drop trailing `fusion::void_` support from C++11 `fusion::vector`. [@https://github.com/boostorg/fusion/pull/120 pull-request 120]
+  * Workarounds for GCC 4.0 and 4.1 ICE. [ticket 5808] [ticket 7229]
+  * Workaround for ambiguous call of `fusion::convert` on GCC 3.4. [@https://github.com/boostorg/fusion/pull/130 pull-request 130]
   
 * [phrase library..[@/libs/geometry Geometry]:]
-  * Overlays: enhanced implementation for handling colocated intersection
-    points, fixing many issues
-  * Additional support and fixes for spherical and geographic coordinate
-    systems
+  * ['Additional functionality:]
+    * Support within and covered_by for Box/Box in spherical and geographic coordinate systems.
+  * ['Improvements:]
+    * Overlay: handle_tangencies replaced by clusters, fixing many cases with colocated turns
+  * ['Solved tickets:]
+    * [@https://svn.boost.org/trac/boost/ticket/10866 #10866] union_ doesn't work in 1.56 and 1.57.
+    * [@https://svn.boost.org/trac/boost/ticket/11018 #11018] Invalid geometry intersection
+    * [@https://svn.boost.org/trac/boost/ticket/11576 #11576] Intersection gives wrong results.
+    * [@https://svn.boost.org/trac/boost/ticket/11637 #11637] Unused parameter warning.
+    * [@https://svn.boost.org/trac/boost/ticket/11725 #11725] union_ fails to create holes
+    * [@https://svn.boost.org/trac/boost/ticket/11789 #11789] Assertion failure or invalid result of set operations for spherical_equatorial coordinate system.
+    * [@https://svn.boost.org/trac/boost/ticket/11917 #11917] Andoyer distance strategy returns 0 for antipodal points (default geographic distance).
+    * [@https://svn.boost.org/trac/boost/ticket/11928 #11928] Improvement of the accuracy of surveyor area strategy.
+    * [@https://svn.boost.org/trac/boost/ticket/11966 #11966] Compilation error in svg() for box and non-int coordinate type.
+    * [@https://svn.boost.org/trac/boost/ticket/11984 #11984] union_() generates self-intersecting polygon
+    * [@https://svn.boost.org/trac/boost/ticket/11987 #11987] rtree::remove() not compiling for geographic CS.
+    * [@https://svn.boost.org/trac/boost/ticket/12000 #12000] Uninitialized reference in (unused) constructor of relate's mask_handler.
+    * [@https://svn.boost.org/trac/boost/ticket/12106 #12106] Invalid assertion failure in envelope() for non-cartesian very short segments.
+  * ['Bugfixes:]
+    * Fix intersects and disjoint for Segment/Box in cartesian coordinate system when Segment is parallel to Box's face.
+    * Fix relation operations for Point/Areal in spherical and geographic coordinate systems for edge cases.
+    * Fix intersects and disjoint for Point/Box and Box/Box in spherical and geographic coordinate systems for some cases.
+    * Fix within and covered_by for Point/Box in spherical and geographic coordinate systems for some cases.
 
 * [phrase library..[@/libs/interprocess/ Interprocess]:]
   *  Fixed bugs:
@@ -128,11 +150,33 @@
     * Fixed compilation problems on Solaris.
     * Added a workaround for MSVC-10 generating broken code for formatters in some cases. ([ticket 12025])
   * See [@/libs/log/doc/html/log/changelog.html changelog] for more details.
+ 
+* [phrase library..[@/libs/math/ Math]:]
+    * Polynomial arithmetic added to tools.
 
 * [phrase library..[@/libs/move/ Move]:]
   *  Experimental: asymptotically optimal bufferless merge and sort algorithms: adaptive_merge and adaptive_sort.
   *  Fixed bug:
     * [@https://svn.boost.org/trac/boost/ticket/11758 Trac #11758: ['"BOOST_MOVABLE_BUT_NOT_COPYABLE doesn't reset private access with rvalue ref version"]].
+
+* [phrase library..[@/libs/multiprecision/ Multiprecision]:]
+    * Fixed bug in stream input for integer types, see [@https://svn.boost.org/trac/boost/ticket/11857 #11857].
+    * Fixed some ambiguous conversions involving expression templates see [@https://svn.boost.org/trac/boost/ticket/11922 #11922].
+    * Add expression template aware min/max overloads see [@https://svn.boost.org/trac/boost/ticket/11149 #11149].
+    * Fix bug in right shifting negative small integers in cpp_int see [@https://svn.boost.org/trac/boost/ticket/11999 #11999].
+    * Use memmove for bitshifts in cpp_int when possible see [@https://svn.boost.org/trac/boost/ticket/9233 #9233].
+    * Use memcpy for data import into cpp_int where possible, see [@https://svn.boost.org/trac/boost/ticket/9235 #9235].
+    * Changed `cpp_bin_float.convert_to<double>()` to a function template rather than proceding via `long double` to avoid double-rounding bug, see [@https://svn.boost.org/trac/boost/ticket/12039 #12039].
+    * Fixed conversions from NaN's and Infinities, see [@https://svn.boost.org/trac/boost/ticket/12112 #12112].
+    * Enabled better support for Clang on Windows.
+    * Fixed handling of NaN's and Infinities in basic arithmetic for cpp_dec_float and cpp_bin_float, see [@https://svn.boost.org/trac/boost/ticket/12090 #12090].
+    * Fixed fencepost error in cpp_bin_float subtraction.
+    * Fixed double-rounding in conversion to float routines for cpp_bin_float, see [@https://svn.boost.org/trac/boost/ticket/12039 #12039].
+    * Make float128 denorm aware, see [@https://svn.boost.org/trac/boost/ticket/12075 #12075].
+    * Allow the library and tests to be used without exception handling support, see [@https://svn.boost.org/trac/boost/ticket/12070 #12070].
+    * Fixed buggy comparison operator overloads for boost::rational.
+    * Added some workarounds for Oracle C++.
+    * Fixed some missing typecasts for cases where cpp_int's limb_type is wider than unsigned.
 
 * [phrase library..[@/libs/optional/ Optional]:]
   * Now `boost::optional` is specialized for reference parameters. This addresses a couple of issues:
@@ -144,6 +188,9 @@
   * Documented nested typedefs ([@https://svn.boost.org/trac/boost/ticket/5193 Trac #5193]).
   * Made the perfect-forwarding constructor SFINAE-friendly, which fixes [@https://svn.boost.org/trac/boost/ticket/12002 Trac #12002]. However, this only works in the newer platforms that correctly implement C++11 `<type_traits>`.
   * Fixed [@https://svn.boost.org/trac/boost/ticket/10445 Trac #10445].
+
+* [phrase library..[@/libs/regex/ Regex]:]
+    * Change to lockfree implementation of memory cache, see [@https://github.com/boostorg/regex/pull/23 PR#23].
 
 * [phrase library..[@/libs/test/ Test]:]
   * Boost.test v3.2 see the

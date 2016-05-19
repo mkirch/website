@@ -17,6 +17,11 @@ class BoostPages {
                 $this->pages[$qbk_file]
                     = new BoostPages_Page($qbk_file, $record);
             }
+
+            uasort($this->pages, function($x, $y) {
+                return $x->last_modified == $y->last_modified ? 0 :
+                    ($x->last_modified < $y->last_modified ? 1 : -1);
+            });
         }
     }
 
@@ -26,7 +31,15 @@ class BoostPages {
             $this->hash_file);
     }
 
-    function add_qbk_file($qbk_file, $location, $page_data) {
+    function scan_location_for_new_quickbook_pages($dir_location, $src_file_glob, $type) {
+        foreach (glob("{$this->root}/{$src_file_glob}") as $qbk_file) {
+            assert(strpos($qbk_file, $this->root) === 0);
+            $qbk_file = substr($qbk_file, strlen($this->root) + 1);
+            $this->add_qbk_file($qbk_file, $dir_location, $type);
+        }
+    }
+
+    function add_qbk_file($qbk_file, $dir_location, $type) {
         $qbk_hash = hash('sha256', str_replace("\r\n", "\n",
             file_get_contents("{$this->root}/{$qbk_file}")));
 
@@ -37,7 +50,7 @@ class BoostPages {
         } else {
             $record = $this->pages[$qbk_file];
             if ($record->dir_location) {
-                assert($record->dir_location == $location);
+                assert($record->dir_location == $dir_location);
             }
             if ($record->qbk_hash == $qbk_hash) {
                 return;
@@ -48,12 +61,9 @@ class BoostPages {
         }
 
         $record->qbk_hash = $qbk_hash;
-        $record->dir_location = $location;
-        if (isset($page_data['type'])) {
-            $record->type = $page_data['type'];
-        } else {
-            $record->type = 'page';
-        }
+        $record->dir_location = $dir_location;
+        $record->type = $type;
+
         if (!in_array($record->type, array('release', 'page'))) {
             throw new RuntimeException("Unknown record type: ".$record->type);
         }
@@ -139,38 +149,6 @@ EOL;
         $r = ob_get_contents();
         ob_end_clean();
         file_put_contents($_location, $r);
-    }
-
-    /**
-        patterns is a list of strings, containing a glob followed
-        by required flags, separated by '|'. The syntax will probably
-        change in the future.
-    */
-    function match_pages($patterns, $count = null, $sort = true) {
-        $entries = array();
-        foreach ($patterns as $pattern) {
-            $pattern_parts = explode('|', $pattern);
-            foreach ($this->pages as $key => $page) {
-                if (fnmatch($pattern_parts[0], $key)
-                    && $page->is_published(array_slice($pattern_parts, 1)))
-                {
-                    $entries[$key] = $page;
-                }
-            }
-        }
-
-        if ($sort) {
-            uasort($entries, function($x, $y) {
-                return $x->last_modified == $y->last_modified ? 0 :
-                    ($x->last_modified < $y->last_modified ? 1 : -1);
-            });
-        }
-
-        if ($count) {
-            $entries = array_slice($entries, 0, $count);
-        }
-
-        return $entries;
     }
 }
 
@@ -325,36 +303,36 @@ class BoostPages_Page {
                 'downloads' => array(
                     'unix' => array(
                         array(
-                            'url' => "https://bintray.com/artifact/download/boostorg/release/boost_1_61_0_b1.tar.bz2",
-                            'sha256' => '866941f0038b27fcc69ced1490b2dc5fa8d20f505d66b939a92a68ef194d1a6c',
+                            'url' => "https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.bz2",
+                            'sha256' => 'a547bd06c2fd9a71ba1d169d9cf0339da7ebf4753849a8f7d6fdb8feee99b640',
                         ),
                         array(
-                            'url' => "https://bintray.com/artifact/download/boostorg/release/boost_1_61_0_b1.tar.gz",
-                            'sha256' => '0b92c5fb5b91641409b9675b2fd11d3b3fa5f71dd986d3b5fb03da201bf55474',
+                            'url' => "https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz",
+                            'sha256' => 'a77c7cc660ec02704c6884fbb20c552d52d60a18f26573c9cee0788bf00ed7e6',
                         ),
                     ),
                     'windows' => array(
                         array(
-                            'url' => "https://bintray.com/artifact/download/boostorg/release/boost_1_61_0_b1.7z",
-                            'sha256' => '3f8888099ee6f62b412a13be916dead2bacbdd6d69e5afd5b6fea4bb738e5df4',
+                            'url' => "https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.7z",
+                            'sha256' => 'fa1c34862b7ba8674ed6e064a14667a11830c6252f702d9458451834b74f7815',
                         ),
                         array(
-                            'url' => "https://bintray.com/artifact/download/boostorg/release/boost_1_61_0_b1.zip",
-                            'sha256' => '9dffe5ee7f5f7bf7695f5738c686e44bd266933e3ca68732b0de5520c3c82615',
+                            'url' => "https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.zip",
+                            'sha256' => '02d420e6908016d4ac74dfc712eec7d9616a7fc0da78b0a1b5b937536b2e01e8',
                         ),
                     ),
                 ),
-                'signature' => array(
-                    'location' => 'users/download/signatures/boost_1_61_0_b1.sums.asc',
-                    'name' => 'Vladimir Prus',
-                    'key' => 'https://pgp.mit.edu/pks/lookup?op=get&search=0xDA472E8659753BA4',
-                ),
-                'third_party' => array(
-                    array(
-                        'title' => 'Windows Binaries',
-                        'url' => 'https://sourceforge.net/projects/boost/files/boost-binaries/1.61.0_b1',
-                    ),
-                )
+                //'signature' => array(
+                //    'location' => 'users/download/signatures/boost_1_61_0_b1.sums.asc',
+                //    'name' => 'Vladimir Prus',
+                //    'key' => 'https://pgp.mit.edu/pks/lookup?op=get&search=0xDA472E8659753BA4',
+                //),
+                //'third_party' => array(
+                //    array(
+                //        'title' => 'Windows Binaries',
+                //        'url' => 'https://sourceforge.net/projects/boost/files/boost-binaries/1.61.0_b1',
+                //    ),
+                //)
             );
         }
         else if ($this->download_basename) {
@@ -455,10 +433,10 @@ class BoostPages_Page {
 
                     $output .= '<td><a href="';
                     if (strpos($download['url'], 'sourceforge') !== false) {
-                        // TODO: Probably shouldn't add '/download' any more,
-                        //       but keeping to minimise changes in generated
-                        //       files for now.
-                        $output .= html_encode("{$download['url']}/download");
+                        // TODO: I used to add '/download' to source links,
+                        //       but that doesn't seem to be needed any more...
+                        //$output .= html_encode("{$download['url']}/download");
+                        $output .= html_encode($download['url']);
                     }
                     else {
                         $output .= html_encode($download['url']);
@@ -521,7 +499,7 @@ class BoostPages_Page {
         }
     }
 
-    function is_published($flags) {
+    function is_published($flags = array()) {
         if ($this->page_state == 'new') {
             return false;
         }
