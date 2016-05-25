@@ -2422,6 +2422,37 @@
 -type
 "release
 )
+(feed/history/boost_1_62_0.qbk
+-dir_location
+-documentation
+"/doc/libs/master/
+-download
+-download_basename
+-final_documentation
+-id
+"version_1_62_0
+-last_modified
+=1463955577
+-location
+"users/history/version_1_62_0.html
+-notice
+-notice_url
+-page_state
+-pub_date
+"In Progress
+-purpose
+"
+"      New Libraries: Updated Libraries:
+"
+-qbk_hash
+"90fecfaf2796685bbbde815db85074fde4c8375e553a5c47206a1474bebaacf0
+-release_status
+"dev
+-title
+"Version 1.62.0
+-type
+"release
+)
 (feed/history/unversioned.qbk
 -dir_location
 -documentation
