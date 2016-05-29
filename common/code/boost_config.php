@@ -6,17 +6,21 @@
 */
 
 /*
+
 BOOST_CONFIG_FILE
   Path to local configuration, as a PHP source file.
 
+BOOST_WEBSITE_SHARED_DIR
+  The root directory for some of these constants, not needed if you
+  set them explicitly.
+
 BOOST_RSS_DIR
   Path to directory with RSS feeds from Gmane.
+  - Currently not really used.
 
 BOOST_DATA_DIR
   Path to directory containing data files and repos from cron jobs.
-
-ARCHIVE_PREFIX
-  Partial path for Boost release archives, the ZIP versions.
+  - Defaults to BOOST_WEBSITE_SHARED_DIR/data
 
 UNZIP
   Unzip program to use to extract files from ZIPs.
@@ -26,6 +30,15 @@ ARCHIVE_FILE_PREFIX
 
 STATIC_DIR
   Path to static copies of boost.
+  - Defaults to BOOST_WEBSITE_SHARED_DIR/archives/live
+
+BOOST_REPOS_DIR
+  Loction of local copies for develop and master super projects.
+  Set them up using:
+  git clone https://github.com/boostorg/boost.git -b master --depth=1 boost-master
+  git clone https://github.com/boostorg/boost.git -b develop --depth=1 boost-develop
+  And then git pull regularly.
+  - Defaults to BOOST_WEBSITE_SHARED_DIR/repos
 */
 
 switch (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '')
@@ -56,12 +69,16 @@ if(!function_exists('virtual'))
     }
 }
 
-if (!defined('STATIC_DIR')) {
-    define('STATIC_DIR', dirname(__FILE__).'/../../doc/archives');
-}
+if (defined('BOOST_WEBSITE_SHARED_DIR')) {
+    if (!defined('STATIC_DIR')) {
+        define('STATIC_DIR', BOOST_WEBSITE_SHARED_DIR.'/archives/live');
+    }
 
-if (!defined('BOOST_DATA_DIR')) {
-    define('BOOST_DATA_DIR', dirname(__FILE__).'/../../data');
-}
+    if (!defined('BOOST_DATA_DIR')) {
+        define('BOOST_DATA_DIR', BOOST_WEBSITE_SHARED_DIR.'/data');
+    }
 
-?>
+    if (!defined('BOOST_REPOS_DIR')) {
+        define('BOOST_REPOS_DIR', BOOST_WEBSITE_SHARED_DIR.'/repos');
+    }
+}
