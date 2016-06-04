@@ -62,7 +62,7 @@ switch (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '')
   {
     if (is_dir('/home/www/shared')) {
         file_put_contents(
-            'home/www/shared/host.log',
+            '/home/www/shared/host.log',
             "Host: ".
             (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').
             "\n",
