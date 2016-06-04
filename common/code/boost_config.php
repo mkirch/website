@@ -60,6 +60,15 @@ switch (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '')
 
   default:
   {
+    if (is_dir('/home/www/shared')) {
+        file_put_contents(
+            'home/www/shared/host.log',
+            "Host: ".
+            (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').
+            "\n",
+            FILE_APPEND|LOCK_EX);
+    }
+
     define('BOOST_CONFIG_FILE',dirname(__FILE__) . '/boost_config_local.php');
   }
 }
