@@ -20,7 +20,7 @@ class BoostLibrary
     static function read_libraries_json($json) {
         $json = trim($json);
         $libs = json_decode($json, true);
-        if (!$libs) {
+        if (!is_array($libs)) {
             throw new library_decode_exception("Error decoding json.", $json);
         }
         if ($json[0] == '{') {
@@ -61,6 +61,7 @@ class BoostLibrary
             $lib['authors'] = '';
         }
 
+        // Setup the standard flags.
         if (!isset($lib['std'])) {
             $lib['std'] = array();
         }
@@ -92,18 +93,28 @@ class BoostLibrary
             sort($lib['category']);
         }
 
+        // Check the status.
+        if (isset($lib['status'])) {
+            $lib['status'] = strtolower($lib['status']);
+            if (!in_array($lib['status'], array('hidden', 'deprecated'))) {
+                // TODO: Better exception?
+                throw new BoostLibraries_exception("Invalid status: {$lib['status']}");
+            }
+        }
+
         $this->details = $lib;
     }
 
-    public function set_module($module_name, $module_path) {
-        assert(!isset($this->details['module']));
-        $module_path = trim($module_path, '/').'/';
+    // This is basically the parent of the 'meta' directory.
+    public function set_library_path($library_path) {
+        assert(!isset($this->details['library_path']));
+        $library_path = trim($library_path, '/').'/';
         $documentation_url =
             isset($this->details['documentation']) ?
             $this->details['documentation'] : '.';
-        $this->details['module'] = $module_name;
+        $this->details['library_path'] = $library_path;
         $this->details['documentation'] =
-            ltrim(BoostUrl::resolve($documentation_url, $module_path), '/');
+            ltrim(BoostUrl::resolve($documentation_url, $library_path), '/');
     }
 
     public function array_for_json($exclude = array()) {

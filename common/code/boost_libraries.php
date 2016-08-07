@@ -17,8 +17,8 @@ define('USE_SERIALIZED_INFO', true);
  */
 class BoostLibraries
 {
-    private $categories = array();
-    private $db = array();
+    public $categories = array();
+    public $db = array();
 
     /**
      *
@@ -97,7 +97,7 @@ class BoostLibraries
                     case 'description':
                     case 'documentation':
                     case 'status':
-                    case 'module':
+                    case 'library_path':
                     {
                         if (isset($val['value'])) { $lib[$val['tag']] = trim($val['value']); }
                         else { $lib[$val['tag']] = ''; }
@@ -282,7 +282,7 @@ class BoostLibraries
      */
     public function update($update_version = null, $update = null) {
         $this->update_start($update_version);
-        if ($update) { $this->update_modules($update_version, $update); }
+        if ($update) { $this->update_libraries($update_version, $update); }
         $this->update_finish($update_version);
     }
 
@@ -298,7 +298,7 @@ class BoostLibraries
         }
     }
 
-    public function update_modules($update_version, $update) {
+    public function update_libraries($update_version, $update) {
         if ($update_version) {
             $update_version = BoostVersion::from($update_version);
         }
@@ -333,7 +333,7 @@ class BoostLibraries
         }
     }
 
-    public function update_finish($version) {
+    public function update_finish($version = null) {
         if ($version) {
             $version = BoostVersion::from($version);
         }
@@ -346,6 +346,7 @@ class BoostLibraries
         // Note: can only do this after 'clean_db' as that copies the
         // old release details into the new release.
         if ($version && $version->is_numbered_release()) {
+            // TODO: Special case for hidden libraries?
             $libs = $this->get_for_version($version, null,
                 'BoostLibraries::filter_all');
             $new_libs = array();
@@ -358,7 +359,7 @@ class BoostLibraries
 
                 $new_libs[] = new BoostLibrary($lib_details);
             }
-            $this->update_modules($version, $new_libs);
+            $this->update_libraries($version, $new_libs);
             $this->clean_db();
         }
     }
@@ -430,7 +431,7 @@ class BoostLibraries
 
                 $writer->startElement('library');
                 $this->write_element($writer, $exclude, $details, 'key');
-                $this->write_element($writer, $exclude, $details, 'module');
+                $this->write_element($writer, $exclude, $details, 'library_path');
                 $this->write_optional_element($writer, $exclude, $details, 'boost-version');
                 $this->write_optional_element($writer, $exclude, $details, 'update-version');
                 $this->write_optional_element($writer, $exclude, $details, 'status');
@@ -574,6 +575,8 @@ class BoostLibraries
             }
 
             if ($details) {
+                if (array_key_exists('status', $details)
+                    && $details['status'] == 'hidden') { continue; }
                 if ($filter && !call_user_func($filter, $details)) continue;
                 $libs[$key] = $details;
             }

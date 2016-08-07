@@ -7,18 +7,15 @@
 
 class BoostFilterQbk extends BoostFilterText
 {
-    function echo_filtered() {
-        $this->title = html_encode($this->data->key);
+    function __construct($data) {
+        parent::_construct($data);
         $this->data->noindex = true;
-
-        $this->display_template(
-            $this->template_params($this->qbk_filter_content()));
     }
 
-    function qbk_filter_content()
+    function filter_content()
     {
         return
-            "<h3>".html_encode($this->data->key)."</h3>\n".
+            "<h3>".html_encode($this->data->path)."</h3>\n".
             "<pre>\n".
             $this->encoded_text('cpp').
             "</pre>\n";

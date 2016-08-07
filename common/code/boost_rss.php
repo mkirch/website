@@ -14,6 +14,13 @@ class BoostRss {
 
         if (is_file($this->rss_state_path)) {
             $this->rss_items = BoostState::load($this->rss_state_path);
+
+            foreach($this->rss_items as &$item) {
+                if (!empty($item['last_modified']) && is_numeric($item['last_modified'])) {
+                    $item['last_modified'] = new DateTime("@{$item['last_modified']}");
+                }
+            }
+            unset($item);
         }
     }
 
@@ -86,8 +93,10 @@ EOL;
         $xml .= '<link>'.$this->encode_for_rss($page_link).'</link>';
         $xml .= '<guid>'.$this->encode_for_rss($page_link).'</guid>';
 
-        # TODO: Convert date format?
-        $xml .= '<pubDate>'.$this->encode_for_rss($page->pub_date).'</pubDate>';
+        // Q: Maybe use $page->last_modified when there's no pub_date.
+        if ($page->pub_date) {
+            $xml .= '<pubDate>'.$this->encode_for_rss($page->pub_date->format(DATE_RSS)).'</pubDate>';
+        }
 
         # Placing the description in a root element to make it well formed xml->
         $description = BoostSiteTools::base_links($page->description_xml, $page_link);
@@ -95,6 +104,8 @@ EOL;
 
         $xml .= '</item>';
 
+        // Q: Should this be using the page last_modified, or when the RSS
+        //    feed item was last modified?
         return(array(
             'item' => $xml,
             'quickbook' => $qbk_file,
