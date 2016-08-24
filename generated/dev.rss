@@ -37,6 +37,48 @@
     &lt;ul&gt;
       &lt;li&gt;
         &lt;div&gt;
+          &lt;span class="library"&gt;&lt;a href="http://www.boost.org/doc/libs/master/libs/chrono/"&gt;Chrono&lt;/a&gt;:&lt;/span&gt;
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                &lt;a href="http://svn.boost.org/trac/boost/ticket/11330"&gt;#11330&lt;/a&gt;
+                boost::chrono::duration default constructor doesn't initialize rep_
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                &lt;a href="http://svn.boost.org/trac/boost/ticket/11618"&gt;#11618&lt;/a&gt;
+                Chrono IO V2 doc ios_state.hpp does not exist
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                &lt;a href="http://svn.boost.org/trac/boost/ticket/11631"&gt;#11631&lt;/a&gt;
+                boost chrono io v2 does not let you support custom clocks
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          &lt;span class="library"&gt;&lt;a href="http://www.boost.org/doc/libs/master/libs/circular_buffer/"&gt;Circular Buffer&lt;/a&gt;:&lt;/span&gt;
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Debug implementation is no longer used by default in debug mode.
+                Debug implementation does not have the same thread safety guarantees
+                as the normal (release) implementation or other containers. As a
+                result of this change &lt;code&gt;&lt;span class="identifier"&gt;BOOST_CB_DISABLE_DEBUG&lt;/span&gt;&lt;/code&gt;
+                macro is no longer used. &lt;code&gt;&lt;span class="identifier"&gt;BOOST_CB_ENABLE_DEBUG&lt;/span&gt;&lt;span class="special"&gt;=&lt;/span&gt;&lt;span class="number"&gt;1&lt;/span&gt;&lt;/code&gt;
+                should be defined instead to enable debug support. (&lt;a href="https://svn.boost.org/trac/boost/ticket/6277"&gt;#6277&lt;/a&gt;)
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
           &lt;span class="library"&gt;&lt;a href="http://www.boost.org/doc/libs/master/libs/context/"&gt;Context&lt;/a&gt;:&lt;/span&gt;
           &lt;ul&gt;
             &lt;li&gt;
@@ -47,6 +89,11 @@
             &lt;li&gt;
               &lt;div&gt;
                 &lt;a href="https://svn.boost.org/trac/boost/ticket/12242"&gt;#12242&lt;/a&gt; build issue with Intel C++ compiler for MacOS
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                fix stack unwinding for execution_context_v1
               &lt;/div&gt;
             &lt;/li&gt;
           &lt;/ul&gt;
@@ -84,7 +131,302 @@
       &lt;/li&gt;
       &lt;li&gt;
         &lt;div&gt;
-          &lt;em&gt;TODO&lt;/em&gt;
+          &lt;span class="library"&gt;&lt;a href="http://www.boost.org/doc/libs/master/libs/log/"&gt;Log&lt;/a&gt;:&lt;/span&gt;
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                New features:
+                &lt;ul&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      Added new tools for inter-process logging on a local machine.
+                      The implementation includes a resource name wrapper, an inter-process
+                      message queue and a sink backend.
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      Added a new character decorator called &lt;code&gt;&lt;span class="identifier"&gt;max_size_decor&lt;/span&gt;&lt;/code&gt;.
+                      The new decorator allows to limit the output of its adopted
+                      formatter up to the specified length.
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Bug fixes:
+                &lt;ul&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      Fixed that logging streams could retain formatting settings
+                      across different log records. (&lt;a href="https://svn.boost.org/trac/boost/ticket/12178"&gt;#12178&lt;/a&gt;)
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                See &lt;a href="http://www.boost.org/doc/libs/master/libs/log/doc/html/log/changelog.html"&gt;changelog&lt;/a&gt;
+                for more details.
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          &lt;span class="library"&gt;&lt;a href="http://www.boost.org/doc/libs/master/libs/phoenix/"&gt;Phoenix&lt;/a&gt;:&lt;/span&gt;
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Fix compilation for MSVC 10. &lt;a href="https://github.com/boostorg/phoenix/pull/18"&gt;pull-request
+                18&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Remove unused preprocessed files. &lt;a href="https://github.com/boostorg/phoenix/pull/28"&gt;pull-request
+                28&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Fix erroneous doc for switch_ statement. &lt;a href="https://svn.boost.org/trac/boost/ticket/8156"&gt;#8156&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Cleanup config unordered. &lt;a href="https://github.com/boostorg/phoenix/pull/33"&gt;pull-request
+                33&lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Suppress unused placeholder warnings.
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Fix too few arguments error on binary math functions.
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          &lt;span class="library"&gt;&lt;a href="http://www.boost.org/doc/libs/master/libs/regex/"&gt;Regex&lt;/a&gt;:&lt;/span&gt;
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Fix buffer over-run error when parsing certain invalid regexes, see
+                &lt;a href="https://svn.boost.org/trac/boost/ticket/12222"&gt;#12222&lt;/a&gt;.
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Fix detection of ICU in library build, see &lt;a href="https://svn.boost.org/trac/boost/ticket/12152"&gt;#12152&lt;/a&gt;.
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Fix bug in case sensitivity change, see &lt;a href="https://svn.boost.org/trac/boost/ticket/11940"&gt;#11940&lt;/a&gt;.
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Allow types wider than int in &lt;code&gt;&lt;span class="special"&gt;\&lt;/span&gt;&lt;span class="identifier"&gt;x&lt;/span&gt;&lt;span class="special"&gt;{}&lt;/span&gt;&lt;/code&gt;
+                expressions (for char32_t etc), see &lt;a href="https://svn.boost.org/trac/boost/ticket/11988"&gt;#11988&lt;/a&gt;.
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          &lt;span class="library"&gt;&lt;a href="http://www.boost.org/doc/libs/master/libs/test/"&gt;Test&lt;/a&gt;:&lt;/span&gt;
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Boost.test v3.3 see the '&lt;a href="http://www.boost.org/doc/libs/master/libs/test/doc/html/boost_test/change_log.html"&gt;Change
+                log&lt;/a&gt;' section for details.
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                New features
+                &lt;ul&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      dataset driven test-cases have now a unique name and all sample
+                      tests of a dataset live inside the same test suite
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      Boost.test learned a new command line switch, &lt;code&gt;&lt;span class="special"&gt;--&lt;/span&gt;&lt;span class="identifier"&gt;logger&lt;/span&gt;&lt;/code&gt;
+                      for setting a test logger as well as its parameter in one command
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      Boost.test learned to have several loggers at the same time,
+                      each of which having their own log level and sink
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      Boost.test learned a new logger, &lt;code&gt;&lt;span class="identifier"&gt;JUNIT&lt;/span&gt;&lt;/code&gt;,
+                      that is able to output Junit/xUnit compatible streams
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      It is now possible to specify several test filters through
+                      the environment variable &lt;code&gt;&lt;span class="identifier"&gt;BOOST_TEST_RUN_FILTERS&lt;/span&gt;&lt;/code&gt;
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Bug fixes
+                &lt;ul&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      &lt;a href="https://svn.boost.org/trac/boost/ticket/8707"&gt;#8707&lt;/a&gt;, &lt;a href="https://svn.boost.org/trac/boost/ticket/8834"&gt;#8834&lt;/a&gt;, &lt;a href="https://svn.boost.org/trac/boost/ticket/11128"&gt;#11128&lt;/a&gt;, &lt;a href="https://svn.boost.org/trac/boost/ticket/11845"&gt;#11845&lt;/a&gt;
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      &lt;a href="https://svn.boost.org/trac/boost/ticket/11859"&gt;#11859&lt;/a&gt;, &lt;a href="https://svn.boost.org/trac/boost/ticket/12024"&gt;#12024&lt;/a&gt;, &lt;a href="https://svn.boost.org/trac/boost/ticket/12103"&gt;#12103&lt;/a&gt;, &lt;a href="https://svn.boost.org/trac/boost/ticket/12224"&gt;#12224&lt;/a&gt;
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                  &lt;li&gt;
+                    &lt;div&gt;
+                      &lt;a href="https://github.com/boostorg/test/pull/81"&gt;PR81&lt;/a&gt;
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          &lt;span class="library"&gt;&lt;a href="http://www.boost.org/doc/libs/master/libs/thread/"&gt;Thread&lt;/a&gt;:&lt;/span&gt;
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                &lt;a href="http://svn.boost.org/trac/boost/ticket/12102"&gt;#12102&lt;/a&gt;
+                condition_variable_fwd.hpp fails to compile when BOOST_THREAD_PROVIDES_INTERRUPTIONS
+                is disabled
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                &lt;a href="http://svn.boost.org/trac/boost/ticket/12120"&gt;#12120&lt;/a&gt;
+                Performance improvement in thread/barrier.hpp
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                &lt;a href="http://svn.boost.org/trac/boost/ticket/12146"&gt;#12146&lt;/a&gt;
+                make_exceptional_future is not mentioned in the docs
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                &lt;a href="http://svn.boost.org/trac/boost/ticket/12202"&gt;#12202&lt;/a&gt;
+                shared_lock should be in shared_mutex header
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                &lt;a href="http://svn.boost.org/trac/boost/ticket/12371"&gt;#12371&lt;/a&gt;
+                boost thread/future.hpp fails to build
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #88 fix typos in boost::upgrade_lock
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #89 fix a bug in upgrade_to_unique_lock&amp;lt;&amp;gt;::operator=()
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #90 fix a bug in try_lock_wrapper&amp;lt;&amp;gt;::operator=()
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #91 Add shared_lock_guard to the included lock types
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #92 Fixed compilation with MSVC-8.
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #93 Fix variable shadowing warnings (Clang)
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #94 fix bugs in boost::barrier
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #95 fix a mistake in boost::completion_latch
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #96 rename async_func.hpp to invoker.hpp.
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                #97 fix a mistake in sync_timed_queue&amp;lt;&amp;gt;::pull_until()
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          &lt;span class="library"&gt;&lt;a href="http://www.boost.org/doc/libs/master/libs/unordered/"&gt;Unordered&lt;/a&gt;:&lt;/span&gt;
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Remove use of deprecated &lt;code&gt;&lt;span class="identifier"&gt;boost&lt;/span&gt;&lt;span class="special"&gt;::&lt;/span&gt;&lt;span class="identifier"&gt;iterator&lt;/span&gt;&lt;/code&gt;.
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Fixed an exception safety issue in assignment of &lt;code&gt;&lt;span class="identifier"&gt;unordered_multiset&lt;/span&gt;&lt;/code&gt;
+                and &lt;code&gt;&lt;span class="identifier"&gt;unordered_multimap&lt;/span&gt;&lt;/code&gt;.
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                See the &lt;a href="http://www.boost.org/doc/libs/master/doc/html/unordered/changes.html"&gt;changelog&lt;/a&gt;
+                for more details.
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
         &lt;/div&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
@@ -97,7 +439,144 @@
     &lt;ul&gt;
       &lt;li&gt;
         &lt;div&gt;
-          &lt;em&gt;TODO&lt;/em&gt;
+          Linux:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang: 3.0, 3.8.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang, C++11: 3.0, 3.1, 3.2, 3.3, 3.4, 3.8.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang, C++14: 3.5, 3.6, 3.7, 3.8.0, 3.8.1, 3.9.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC: 4.4.7, 4.5.3, 4.6.3, 4.7.2, 5.2.0, 6.1.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++11: 4.4.7, 4.7.2, 4.7.3, 4.8.5, 4.9.3, 5.2.0, 6.1.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++14: 5.2.0, 5.3.0, 5.4.1, 6.1.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Intel: 16.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Intel, C++11: 16.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Intel, C++14: 16.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          Windows:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++03, mingw: 3.4.5, 4.1.2, 4.2.4, 4.3.3, 4.4.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++11, mingw: 4.6.4, 4.7.3, 4.8.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++14, mingw: 6.1.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Visual C++: 7.1, 8.0, 9.0, 10.0, 11.0, 12.0, 14.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          Android:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang: 3.6, 3.7, 3.8
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC: 4.9, 5.4, 6.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          FreeBSD:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang: 3.4.1, 3.7
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC: 4.8.5, 5.4.0, 6.1.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          QNX:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                QCC: 4.4.2
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          SunOS:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Oracle Solaris Studio: 12.5
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Oracle Solaris Studio, C++11: 12.5
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
         &lt;/div&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
@@ -107,7 +586,183 @@
     &lt;ul&gt;
       &lt;li&gt;
         &lt;div&gt;
-          &lt;em&gt;TODO&lt;/em&gt;
+          Linux:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang: 3.0, 3.8
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang, c++11: 3.0, 3.1, 3.2, 3.3, 3.4, 3.8
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang, c++14: 3.5, 3.6, 3.7, 3.8, 3.9
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC: 4.4.7, 4.5.3, 4.6.3, 4.7.2, 4.8.4, 5.2.0, 6.1.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++11: 4.4.7, 4.7.2, 4.7.3, 4.8.5, 4.9.3, 5.2.0, 6.1.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++14: 5.2.0, 5.3.0, 5.4.1, 6.1.1, 7.0.0 (experimental)
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Intel: 16.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Intel, C++11: 16.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Intel, C++14: 16.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          OS X:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Apple Clang: 7.3.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                G++: 6.1.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          Windows:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang: 3.8.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++03, mingw: 3.4.5, 4.1.2, 4.2.4, 4.3.3, 4.4.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++11, mingw: 4.6.4, 4.7.3, 4.8.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++14, mingw: 4.9.3, 5.1.0, 5.2.0, 5.3.0, 6.1.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, cygwin: 5.4.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Visual C++: 7.1, 8.0, 9.0, 10.0, 11.0, 12.0, 14.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          Android:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang: 3.6, 3.7, 3.8
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC: 4.9, 5.4, 6.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          FreeBSD:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Clang, C++11: 3.4.1, 3.7.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++11: 4.8.5. 5.4.0, 6.1.1
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          Haiku:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                GCC, C++11: 5.4.0
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          QNX:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                QCC: 4.4.2
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;div&gt;
+          SunOS:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Oracle Solaris Studio: 12.5
+              &lt;/div&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;div&gt;
+                Oracle Solaris Studio, C++11: 12.5
+              &lt;/div&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
         &lt;/div&gt;
       &lt;/li&gt;
     &lt;/ul&gt;

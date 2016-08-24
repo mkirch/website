@@ -141,7 +141,7 @@ class BoostPages {
                 );
                 if ($page_data->type == 'release' && ($page_data->get_release_status() ?: 'dev') === 'dev') {
                     $template_vars['note_xml'] = <<<EOL
-                        <div class="section-note"><p>Note: This release is
+                        <div class="section-alert"><p>Note: This release is
                         still under development. Please don't use this page as
                         a source of information, it's here for development
                         purposes only. Everything is subject to
@@ -301,7 +301,7 @@ class BoostPages_Page {
         $version = $this->array_get($this->release_data, 'version');
         if ($version && $doc_prefix) {
             $version = BoostVersion::from($version);
-            $final_documentation = "/doc/libs/{$version->dir()}";
+            $final_documentation = "/doc/libs/{$version->final_doc_dir()}";
             $link_pattern = '@^'.preg_quote($final_documentation, '@').'/@';
             $replace = "{$doc_prefix}/";
             $values['description_xhtml'] = BoostSiteTools::transform_links($values['description_xhtml'],
@@ -461,10 +461,18 @@ class BoostPages_Page {
             $output = '              <p><span class="news-download"><a href="'.
                 html_encode($downloads).'">';
 
-            if ($this->get_release_status() == 'beta') {
-                $output .= 'Download this beta release.';
-            } else {
+            switch($this->get_release_status()) {
+            case 'released':
                 $output .= 'Download this release.';
+                break;
+            case 'beta':
+                $output .= 'Download this beta release.';
+                break;
+            case 'dev':
+                $output .= 'Download snapshot.';
+                break;
+            default:
+                assert(false);
             }
 
             $output .= '</a></span></p>';
