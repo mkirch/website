@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-  <title>Version 1.62.0 - work in progress</title>
+  <title>Version 1.62.0 beta</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="icon" href="/favicon.ico" type="image/ico" />
   <link rel="stylesheet" type="text/css" href="/style-v2/section-boost.css" />
@@ -34,18 +34,14 @@
             <div class="section-title">
               <h1>Version 1.62.0</h1>
             </div>
-                        <div class="section-alert"><p>Note: This release is
-                        still under development. Please don't use this page as
-                        a source of information, it's here for development
-                        purposes only. Everything is subject to
-                        change.</p></div>
+
             <div class="section-body">
               <h2><span class=
-              "news-title">Version 1.62.0 - work in progress</span></h2>
+              "news-title">Version 1.62.0 beta</span></h2>
 
               <p><span class=news-date">In Progress</span></p>
-              <p><a href="/doc/libs/master/">Documentation</a>
-              <p><span class="news-download"><a href="https://sourceforge.net/projects/boost/files/boost/snapshots/master/">Download snapshot.</a></span></p>
+              <p><a href="/doc/libs/1_62_0_b1/">Documentation</a>
+              <p><span class="news-download"><a href="https://sourceforge.net/projects/boost/files/boost/1.62.0.beta.1/">Download this beta release.</a></span></p>
               <div class="news-description">
                 <div class="description">
 
@@ -56,14 +52,14 @@
     <ul>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/fiber/">Fiber</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/fiber/">Fiber</a>:</span>
   Framework for userland-threads/fibers,
           from Oliver Kowalke.
         </div>
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/qvm/doc/index.html">QVM</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/qvm/doc/index.html">QVM</a>:</span>
   Boost QVM is a
           generic library for working with quaternions, vectors and matrices of static
           size with the emphasis on 2, 3 and 4-dimensional operations needed in graphics,
@@ -77,7 +73,7 @@
     <ul>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/chrono/">Chrono</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/chrono/">Chrono</a>:</span>
           <ul>
             <li>
               <div>
@@ -102,7 +98,7 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/circular_buffer/">Circular Buffer</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/circular_buffer/">Circular Buffer</a>:</span>
           <ul>
             <li>
               <div>
@@ -119,7 +115,123 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/context/">Context</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/container/">Container</a>:</span>
+          <ul>
+            <li>
+              <div>
+                Fixed bugs:
+                <ul>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/9481">Trac
+                      #9481: <em>"Minor comment typo in Boost.Container"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/9689">Trac
+                      #9689: <em>"Add piecewise_construct to boost::container"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/11170">Trac
+                      #11170: <em>"Doc slip for index_of"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/11802">Trac
+                      #11802: <em>"Incorrect ordering after using insert()
+                      with ordered_range_t on a flat_multiset with a non-default
+                      sort order"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12117">Trac
+                      #12117: <em>"flat_set constructor with ordered_unique_range"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12177">Trac
+                      #12177: <em>"vector::priv_merge uses unqualified
+                      uintptr_t"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12183">Trac
+                      #12183: <em>"GCC 6.1 thinks boost::container::string
+                      violates strict aliasing"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12256">Trac
+                      #12256: <em>"set&lt;std::pair&lt;int,int&gt;&gt;::insert
+                      cause compilation error in debug configuration in Visual Studio
+                      2012"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12273">Trac
+                      #12273: <em>"static_vector max_size() and capacity()
+                      should be constant expressions"</em></a>. Added
+                      constant <code><span class="identifier">static_vector</span><span class="special">&lt;&gt;::</span><span class="identifier">static_capacity</span></code>
+                      to use the configured capacity in constant expressions.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12286">Trac
+                      #12286: <em>"PMR flat_map from Boost Container does
+                      not compile"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12296">Trac
+                      #12296: <em>"{deque,string} combine for a memory
+                      leak"</em></a>.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12319">Trac
+                      #12319: <em>"<code><span class="identifier">flat_set</span></code>
+                      should be nothrow move constructible"</em></a>.
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div>
+                Revised noexcept expressions of default and move constructors in
+                all containers.
+              </div>
+            </li>
+            <li>
+              <div>
+                Implemented C++17 <code><span class="identifier">insert_or_assign</span></code>/<code><span class="identifier">try_emplace</span></code> for <code>map</code>
+                and <code>flat_map</code>.
+              </div>
+            </li>
+            <li>
+              <div>
+                Implemented C++17 <code><span class="identifier">extract</span></code>/<code><span class="identifier">insert</span><span class="special">(</span><span class="identifier">node</span><span class="special">)</span></code>
+                for <code>map</code>, <code>multimap</code>, <code>set</code>, <code>multiset</code>.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/context/">Context</a>:</span>
           <ul>
             <li>
               <div>
@@ -141,7 +253,7 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/coroutine2/">Coroutine2</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/coroutine2/">Coroutine2</a>:</span>
           <ul>
             <li>
               <div>
@@ -159,7 +271,36 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/functional/forward/">Functional/Forward</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/dll/">DLL</a>:</span>
+          <ul>
+            <li>
+              <div>
+                Mangled symbols and classes loading was implemented by Klemens Morgenstern
+              </div>
+            </li>
+            <li>
+              <div>
+                Suppress a 'unused parameter' warning in detail::aggressive_ptr_cast
+                [https://github.com/apolukhin/Boost.DLL/pull/9 pull-request 9]
+              </div>
+            </li>
+            <li>
+              <div>
+                Allowed to query non-existant sections [https://github.com/apolukhin/Boost.DLL/pull/32
+                pull-request 32]
+              </div>
+            </li>
+            <li>
+              <div>
+                More tests and docs
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/functional/forward/">Functional/Forward</a>:</span>
           <ul>
             <li>
               <div>
@@ -171,7 +312,87 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/log/">Log</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/interprocess/">Interprocess</a>:</span>
+          <ul>
+            <li>
+              <div>
+                Fixed bug <a href="https://github.com/boostorg/interprocess/pull/27">GitHub
+                Pull #27 (<em>"Fix undefined behavior"</em>)</a>.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/intrusive/">Intrusive</a>:</span>
+          <ul>
+            <li>
+              <div>
+                Fixed bugs:
+                <ul>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/11476">Boost
+                      Trac #11476: <em>has_member_function_callable_with.hpp
+                      is massively broken with BOOST_NO_CXX11_DECLTYPE</em></a>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/11994">Boost
+                      Trac #11994: <em>Support intrusive container key extractors
+                      that return the key by value</em></a>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12184">Boost
+                      Trac #12184: <em>clang -Wdocumentation warning</em></a>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12190">Boost
+                      Trac #12190: <em>Intrusive List + Flat Map combination
+                      crashes</em></a>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12229">Boost
+                      Trac #12229: <em>intrusive::unordered_set&lt;T&gt;::rehash()
+                      broken</em></a>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <a href="https://svn.boost.org/trac/boost/ticket/12245">Boost
+                      Trac #12245: <em>bstree uses a shared static size_traits
+                      for constant_time_size&lt;false&gt;</em></a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/lexical_cast/">Lexical Cast</a>:</span>
+          <ul>
+            <li>
+              <div>
+                Fix incorrect static assertion <a href="https://svn.boost.org/trac/boost/ticket/11759">#11759</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/log/">Log</a>:</span>
           <ul>
             <li>
               <div>
@@ -209,7 +430,7 @@
             </li>
             <li>
               <div>
-                See <a href="/doc/libs/master/libs/log/doc/html/log/changelog.html">changelog</a>
+                See <a href="/doc/libs/1_62_0_b1/libs/log/doc/html/log/changelog.html">changelog</a>
                 for more details.
               </div>
             </li>
@@ -218,7 +439,47 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/phoenix/">Phoenix</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/math/">Math</a>:</span>
+          <ul>
+            <li>
+              <div>
+                New Features:
+                <ul>
+                  <li>
+                    <div>
+                      Enabled all the special function code to work correctly with
+                      types whose precision can change at runtime: for example type
+                      <code><span class="identifier">mpfr_float</span></code>
+                      from Boost.Multiprecision.
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div>
+                Patches:
+                <ul>
+                  <li>
+                    <div>
+                      Fix tgamma_delta_ration for cases where the delta is small
+                      compared to the base.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      Fix misc GCC-4.4 test failures.
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/phoenix/">Phoenix</a>:</span>
           <ul>
             <li>
               <div>
@@ -258,7 +519,7 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/regex/">Regex</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/regex/">Regex</a>:</span>
           <ul>
             <li>
               <div>
@@ -287,11 +548,11 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/test/">Test</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/test/">Test</a>:</span>
           <ul>
             <li>
               <div>
-                Boost.test v3.3 see the '<a href="/doc/libs/master/libs/test/doc/html/boost_test/change_log.html">Change
+                Boost.test v3.3 see the '<a href="/doc/libs/1_62_0_b1/libs/test/doc/html/boost_test/change_log.html">Change
                 log</a>' section for details.
               </div>
             </li>
@@ -359,7 +620,7 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/thread/">Thread</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/thread/">Thread</a>:</span>
           <ul>
             <li>
               <div>
@@ -447,7 +708,42 @@
       </li>
       <li>
         <div>
-          <span class="library"><a href="/doc/libs/master/libs/unordered/">Unordered</a>:</span>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/type_index/">TypeIndex</a>:</span>
+          <ul>
+            <li>
+              <div>
+                <code><span class="identifier">ctti_type_index</span></code> was
+                made constexpr in C++14. Now it is possible to retrieve actual name
+                of the type as <code><span class="keyword">const</span> <span class="keyword">char</span><span class="special">*</span></code>
+                at compile time. So we can do a lot of interesting things at <strong>compile time</strong>: check namespace of a type, sort
+                types according to their lexical representation, check that type
+                is a template type and so on... A few examples were provided.
+              </div>
+            </li>
+            <li>
+              <div>
+                Fixed issue with <code><span class="keyword">noexcept</span></code>
+                on MSVC in type names and issue with space in type name (pulled from
+                klemens-morgenstern/develop)
+              </div>
+            </li>
+            <li>
+              <div>
+                Fixed typos [https://github.com/boostorg/type_index/pull/7 pull-request
+                7]
+              </div>
+            </li>
+            <li>
+              <div>
+                Improved CI testing
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/unordered/">Unordered</a>:</span>
           <ul>
             <li>
               <div>
@@ -462,8 +758,64 @@
             </li>
             <li>
               <div>
-                See the <a href="/doc/libs/master/doc/html/unordered/changes.html">changelog</a>
+                See the <a href="/doc/libs/1_62_0_b1/doc/html/unordered/changes.html">changelog</a>
                 for more details.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="library"><a href="/doc/libs/1_62_0_b1/libs/variant/">Variant</a>:</span>
+          <ul>
+            <li>
+              <div>
+                Fixed variant construction from classes derived from variant <a href="https://svn.boost.org/trac/boost/ticket/7120">#7120</a>,
+                <a href="https://svn.boost.org/trac/boost/ticket/10278">#10278</a>, <a href="https://svn.boost.org/trac/boost/ticket/12155">#12155</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                Variant constructors and assignment operators now do not participate
+                in overload resolutions if variant can not hold the input type <a href="https://svn.boost.org/trac/boost/ticket/5871">#5871</a>,
+                <a href="https://svn.boost.org/trac/boost/ticket/11602">#11602</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                Fixed the issue with implicit conversion operator in C++11 <a href="https://svn.boost.org/trac/boost/ticket/8555">#8555</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                Fixed comparisons when variant holds non-const reference <a href="https://svn.boost.org/trac/boost/ticket/11751">#11751</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                Fixed noexcept for variant's move-assignment <a href="https://svn.boost.org/trac/boost/ticket/11696">#11696</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                Fixed double quotes in includes <a href="https://svn.boost.org/trac/boost/ticket/12057">#12057</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                Dropped BOOST_VARIANT_NO_REFERENCE_SUPPORT macro and dropped support
+                for compilers without SFINAE <a href="https://svn.boost.org/trac/boost/ticket/12250">#12250</a>
+              </div>
+            </li>
+            <li>
+              <div>
+                Suppress implicit instantiation of MPL end iterator
+              </div>
+            </li>
+            <li>
+              <div>
+                Multiple minor fixes (typos, missing includes)
               </div>
             </li>
           </ul>
@@ -810,7 +1162,9 @@
   <div id="version_1_62_0.acknowledgements">
     <h3><span class="link">Acknowledgements</span></h3>
     <p>
-      <em>TODO</em>
+      <a href="/users/people/beman_dawes.html">Beman Dawes</a>, Eric Niebler,
+      <a href="/users/people/rene_rivera.html">Rene Rivera</a>, Daniel James,
+      Vladimir Prus and Marshall Clow managed this release.
     </p>
   </div>
 </div>
