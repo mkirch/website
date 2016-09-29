@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../common/code/boost.php');
+require_once(dirname(__FILE__) . '/../common/code/bootstrap.php');
 
 class LibraryPage {
     static $view_fields = Array(
@@ -36,7 +36,7 @@ class LibraryPage {
     var $view_value = '';
     var $category_value = '';
     var $filter_value = '';
-    var $sort_value = 'name';
+    var $sort_value = '';
     var $attribute_filter = false;
 
     function __construct($params, $libs) {
@@ -53,7 +53,7 @@ class LibraryPage {
             $filter_value = '';
 
             if (!preg_match('@^[-_a-zA-Z0-9]+$@', $view_value)) {
-                die('Invalid view value.');
+                throw new BoostException('Invalid view value.');
             }
 
             if (strpos($view_value, 'filtered_') === 0) {
@@ -92,7 +92,7 @@ class LibraryPage {
                 echo 'Invalid sort field.'; exit(0);
             }
 
-            $this->sort_value = $sort_value;
+            $this->sort_value = $sort_value ?: 'name';
         }
 
         if (!empty($params['filter'])) {
@@ -107,9 +107,9 @@ class LibraryPage {
 
         // Store the sanitized parameters for quickly generating links later.
         $this->params = array(
-            'view' => $this->view_value,
-            'sort' => $this->sort_value,
-            'sort' => $this->attribute_filter,
+            'view' => $view_value,
+            'sort' => $sort_value,
+            'filter' => $attribute_filter,
         );
     }
 

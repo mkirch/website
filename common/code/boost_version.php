@@ -36,7 +36,7 @@ class BoostVersion {
         'point' => 0
     );
 
-    /** True for beta releases. This is a bit broken */
+    /** Beta release number. False if not beta. */
     private $beta = false;
 
     /** The current release version. */
@@ -96,7 +96,7 @@ class BoostVersion {
             }
 
             // TODO: Make this stricter by only matching whole string. Might break something?
-            if (preg_match('@(?<!\d)(\d+)[._](\d+)[._](\d+)([-._ ]?b(?:eta)?(\d*))?@',
+            if (preg_match('@(?<!\d)(\d+)[._](\d+)[._](\d+)([-._ ]?b(?:eta)?[- _]*(\d*))?@',
                 $value, $matches))
             {
                 return self::release(
@@ -113,7 +113,7 @@ class BoostVersion {
             }
         }
         else {
-            die("Can't convert to BoostVersion.\n");
+            throw new BoostVersion_Exception("Can't convert to BoostVersion.");
         }
     }
 
@@ -123,7 +123,7 @@ class BoostVersion {
      */
     static function current() {
         if (BoostVersion::$current == null)
-            die("Version not set.");
+            throw new BoostVersion_Exception("Version not set.");
         return BoostVersion::$current;
     }
 
@@ -161,6 +161,14 @@ class BoostVersion {
     }
 
     /**
+     * Number of the beta release, or false for not a beta.
+     * @return boolean|number
+     */
+    function beta_number() {
+        return $this->beta;
+    }
+
+    /**
      * Is this a numbered release version?
      * (as opposed to a develop branch)
      * @return boolean
@@ -181,15 +189,15 @@ class BoostVersion {
     }
 
     /**
-     * Compare this verison with another. Ignores the beta field
-     * (i.e. 1.50.0 beta1 == 1.50.0 beta).
+     * Compare this verison with another.
      * @return int, -1 if less than the other version, 0 if the
      * same, +1 if more
      */
     function compare($x) {
         $x = BoostVersion::from($x);
 
-        // Full releases come after betas.
+        // Full releases come after betas, so give them a very
+        // large beta number.
         $beta = ($this->beta === false) ? 9999 : $this->beta;
         $x_beta = ($x->beta === false) ? 9999 : $x->beta;
 
@@ -255,9 +263,9 @@ class BoostVersion {
 
     static function set_current($major, $minor, $point) {
         if (self::$current != null)
-            die("Setting current version twice.");
+            throw new BoostVersion_Exception("Setting current version twice.");
         self::$current = self::release($major, $minor, $point);
     }
 }
 
-class BoostVersion_Exception extends RuntimeException {}
+class BoostVersion_Exception extends BoostException {}

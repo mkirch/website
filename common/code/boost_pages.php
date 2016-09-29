@@ -16,33 +16,31 @@ class BoostPages {
         $this->release_file = "{$root}/{$release_file}";
 
         if (is_file($this->release_file)) {
-            $this->release_data = json_decode(
+            $release_data = json_decode(
                 file_get_contents($this->release_file), true);
-            if (is_null($this->release_data)) {
-                // Q: Exception? Fallback?
-                echo "Error decoding release data.\n";
-                exit(0);
+            if (is_null($release_data)) {
+                throw new BoostException("Error decoding release data.");
+            }
+
+            foreach($release_data as $version => $data) {
+                $version_object = BoostVersion::from($version);
+                $base_version = $version_object->final_doc_dir();
+                $version = (string) $version_object;
+                if (isset($this->release_data[$base_version][$version])) {
+                    echo "Duplicate release data for {$version}.\n";
+                }
+                $this->release_data[$base_version][$version] =
+                    $data;
             }
         }
 
         if (is_file($this->hash_file)) {
             foreach(BoostState::load($this->hash_file) as $qbk_file => $record) {
                 $this->pages[$qbk_file]
-                    = new BoostPages_Page($qbk_file, $this->get_release_data($qbk_file), $record);
+                    = new BoostPages_Page($qbk_file,
+                        $this->get_release_data($record['type'], $qbk_file),
+                        $record);
             }
-
-            // Sort pages in reverse chronological order.
-            $pub_date_order = array();
-            $last_published_order = array();
-            $unpublished_date = new DateTime("+10 years");
-            foreach($this->pages as $index => $page) {
-                $pub_date_order[$index] = $page->pub_date ?: $unpublished_date;
-                $last_published_order[$index] = $page->last_modified;
-            }
-            array_multisort(
-                $pub_date_order, SORT_DESC,
-                $last_published_order, SORT_DESC,
-                $this->pages);
         }
     }
 
@@ -50,6 +48,24 @@ class BoostPages {
         BoostState::save(
             array_map(function($page) { return $page->state(); }, $this->pages),
             $this->hash_file);
+    }
+
+    function chronological_pages() {
+        $pages = $this->pages;
+
+        $pub_date_order = array();
+        $last_published_order = array();
+        $unpublished_date = new DateTime("+10 years");
+        foreach($pages as $index => $page) {
+            $pub_date_order[$index] = $page->pub_date ?: $unpublished_date;
+            $last_published_order[$index] = $page->last_modified;
+        }
+        array_multisort(
+            $pub_date_order, SORT_DESC,
+            $last_published_order, SORT_DESC,
+            $pages);
+
+        return $pages;
     }
 
     function scan_location_for_new_quickbook_pages($dir_location, $src_file_glob, $type) {
@@ -60,17 +76,43 @@ class BoostPages {
         }
     }
 
-    function get_release_data($qbk_file) {
-        foreach($this->release_data as $release) {
-            if ($release['release_notes'] === $qbk_file) {
-                return $release;
-            }
+    function get_release_data($type, $qbk_file) {
+        if ($type !== 'release') { return null; }
+
+        $basename = pathinfo($qbk_file, PATHINFO_FILENAME);
+        if ($basename == 'unversioned') {
+            return array('release_status' => 'released');
         }
-        return null;
+
+        $version = BoostVersion::from($basename);
+        $base_version = $version->final_doc_dir();
+        if (array_key_exists($base_version, $this->release_data)) {
+            $latest_version = null;
+            $release_data = null;
+
+            foreach ($this->release_data[$base_version] as $version2 => $data) {
+                $version_object = BoostVersion::from($version2);
+                if (!$latest_version || $version_object->compare($latest_version) > 0) {
+                    $latest_version = $version_object;
+                    $release_data = $data;
+                    $release_data['version'] = $version2;
+                }
+            }
+
+            return $release_data;
+        }
+
+        // Assume old versions are released if there's no data.
+        if ($version->compare('1.50.0') < 0) {
+            return array('version' => $version);
+        }
+
+        // TODO: Maybe assume 'master' for new versions?
+        return array();
     }
 
     function add_qbk_file($qbk_file, $dir_location, $type) {
-        $release_data = $this->get_release_data($qbk_file);
+        $release_data = $this->get_release_data($type, $qbk_file);
 
         $context = hash_init('sha256');
         hash_update($context, json_encode($release_data));
@@ -101,7 +143,7 @@ class BoostPages {
         $record->last_modified = new DateTime();
 
         if (!in_array($record->type, array('release', 'page'))) {
-            throw new RuntimeException("Unknown record type: ".$record->type);
+            throw new BoostException("Unknown record type: ".$record->type);
         }
     }
 
@@ -237,24 +279,9 @@ class BoostPages_Page {
         if ($release_data) {
             assert($this->type === 'release');
 
-            $release_status = array_key_exists('release_status', $release_data)
-                ? strtolower($release_data['release_status'])
-                : ($this->pub_date ? 'released' : 'dev');
-
-            if (!preg_match('@^(released|dev|beta) *(\d*)$@', $release_status, $release_parts)) {
-                echo "Error: Unknown release status: {$this->array_get($release_data, 'release_status')}.\n";
-                exit(0);
+            if (array_key_exists('version', $release_data)) {
+                $release_data['version'] = BoostVersion::from($release_data['version']);
             }
-
-            if ($release_parts[2] && $release_parts[1] != 'beta') {
-                // We only do something with beta release numbers, maybe support
-                // release candidates later?
-                echo "Warning: Ignoring release number for {$release_status}\n";
-                $release_parts[2] = '';
-            }
-
-            $release_data['release_status'] = $release_parts[1];
-            $release_data['release_number'] = $release_parts[2];
         }
 
         $this->release_data = $release_data;
@@ -311,7 +338,6 @@ class BoostPages_Page {
 
         $version = $this->array_get($this->release_data, 'version');
         if ($version && $doc_prefix) {
-            $version = BoostVersion::from($version);
             $final_documentation = "/doc/libs/{$version->final_doc_dir()}";
             $link_pattern = '@^'.preg_quote($final_documentation, '@').'/@';
             $replace = "{$doc_prefix}/";
@@ -330,7 +356,7 @@ class BoostPages_Page {
         case 'released':
             return $this->title_xml;
         case 'beta':
-            return trim("{$this->title_xml} beta {$this->release_data['release_number']}");
+            return trim("{$this->title_xml} beta {$this->release_data['version']->beta_number()}");
         default:
             return "{$this->title_xml} - work in progress";
         }
@@ -506,7 +532,17 @@ class BoostPages_Page {
     }
 
     function get_release_status() {
-        return $this->array_get($this->release_data, 'release_status');
+        if (array_key_exists('release_status', $this->release_data)) {
+            return $this->release_data['release_status'];
+        }
+
+        if (array_key_exists('version', $this->release_data)) {
+            if ($this->release_data['version']->is_numbered_release()) {
+                return $this->release_data['version']->is_beta() ? 'beta' : 'released';
+            }
+        }
+
+        return 'dev';
     }
 
     function get_documentation() {
