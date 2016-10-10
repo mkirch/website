@@ -4,10 +4,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
   <title>Boost Software License</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="icon" href="/favicon.ico" type="image/ico" />
   <link rel="stylesheet" type="text/css" href="../style-v2/section-boost.css" />
-  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> <![endif]-->
+  <!--[if IE 7]> <style type="text/css"> body { behavior: url(/style-v2/csshover3.htc); } </style> 
+  <![endif]-->
+  <style>
+    ins  {background-color: #CCFFCC; text-decoration: none;}
+    del  {background-color: #FFCACA; text-decoration: none;}
+  </style>
 </head><!--
 Note: Editing website content is documented at:
 http://www.boost.org/development/website_updating.html
@@ -98,8 +103,7 @@ http://www.boost.org/development/website_updating.html
               representing good legal practice were also requested. The
               result is the <a href="../LICENSE_1_0.txt">Boost Software
               License</a>:</p>
-              <pre>
-<!--#include virtual="../LICENSE_1_0.txt" -->
+              <pre><!--#include virtual="../LICENSE_1_0.txt" -->
 </pre>
 
               <h2><a name="Rationale" id="Rationale"></a>Rationale</h2>
@@ -189,12 +193,30 @@ http://www.boost.org/development/website_updating.html
               files?</span> <span class="faq-answer">Add a comment based on
               the following template, substituting appropriate text for the
               italicized portion:</span></p>
-              <pre>
-//          Copyright <i>Joe Coder 2004 - 2006</i>.
-// Distributed under the Boost Software License, Version 1.0.
-//    (See accompanying file LICENSE_1_0.txt or copy at
-//          http://www.boost.org/LICENSE_1_0.txt)
+              <pre><del>//         Copyright <i>Joe Coder 2004 - 2006</i>.</del>
+<ins>//  &copy; Copyright <i>copyright-owner-name year-of-first-publication</i></ins> 
+//  Distributed under the Boost Software License, Version 1.0.
+<del>//    (See accompanying file LICENSE_1_0.txt or copy at</del>
+<del>//          http://www.boost.org/LICENSE_1_0.txt)</del>
+<ins>//  See www.boost.org/LICENSE_1_0.txt</ins>
 </pre>
+
+              <ins><p>Either the symbol © or the word &quot;Copyright&quot; is acceptable in 
+              the US, but &quot;To guarantee<br>
+              protection for a copyrighted work in all UCC member countries, the 
+              notice must consist of the symbol © (the word “copyright” or the 
+              abbreviation is not acceptable), the year of first publication, 
+              and the name of the copyright proprietor.&quot; See
+              <a href="http://www.copyright.gov/circs/circ03.pdf">Copyright 
+              Notice</a>, US Copyright Office, which also explains &quot;If the work is a derivative work or a 
+              compilation incorporating previously published material, the year 
+              date of first publication of the derivative work or compilation is 
+              sufficient.&quot;</p>
+
+              <p>The copyright-owner-name may be your name, your employer&#39;s 
+              name, or the name of some other entity that commissioned this 
+              work. See <a href="http://www.copyright.gov/circs/circ09.pdf">
+              Works Made for Hire</a>, US Copyright Office.</p></ins>
 
               <p>Please leave an empty line before and after the above
               comment block. It is fine if the copyright and license messages
@@ -295,8 +317,8 @@ http://www.boost.org/development/website_updating.html
               <code>main()</code> should have a copyright. Files without
               copyrights make corporate lawyers nervous, and that's a barrier
               to adoption. The more of Boost is uniformly copyrighted and
-              licensed, the less problem people will have with mounting a
-              Boost release CD on a corporate server.</span></p>
+              licensed, the less problem people will have with <del>mounting</del> <ins>loading</ins> a
+              Boost release <del>CD</del> on a corporate server.</span></p>
 
               <p class="faq"><span class="faq-question">Can I use the Boost
               license for my own projects outside Boost?</span> <span class=
@@ -304,10 +326,11 @@ http://www.boost.org/development/website_updating.html
               license itself.</span></p>
 
               <p class="faq"><a href=
-              "http://www.opensource.org/docs/definition.php"><img src=
+              "http://www.opensource.org/docs/definition.php">
+              <img src=
               "http://www.opensource.org/trademarks/opensource/web/opensource-110x95.png"
               alt="Open Source (OSI) Logo" class=
-              "inset-right" /></a><span class="faq-question">Is the Boost
+              "inset-right" width="110" height="95" /></a><span class="faq-question">Is the Boost
               license "<a href="http://www.opensource.org/docs/osd" class=
               "external">Open Source</a>"?</span> <span class=
               "faq-answer">Yes. The <a href="http://www.opensource.org/"
