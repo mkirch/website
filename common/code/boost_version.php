@@ -122,8 +122,10 @@ class BoostVersion {
      * @return BoostVersion
      */
     static function current() {
-        if (BoostVersion::$current == null)
-            throw new BoostVersion_Exception("Version not set.");
+        if (BoostVersion::$current == null) {
+            BoostVersion::$current = BoostVersion::from(file_get_contents(
+                __DIR__.'/../../generated/current_version.txt'));
+        }
         return BoostVersion::$current;
     }
 
@@ -233,6 +235,15 @@ class BoostVersion {
     function final_doc_dir() {
         assert(!$this->version['stage']);
         return implode('_', $this->version_numbers());
+    }
+
+    /**
+     * The version number without release stage info
+     * (i.e. no beta info).
+     */
+    function base_version() {
+        return $this->version['stage'] ? $this->stage_name() :
+            implode('.', $this->version_numbers());
     }
 
     /** Return the git tag/branch for the version */
