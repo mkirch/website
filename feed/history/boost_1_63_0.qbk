@@ -14,39 +14,76 @@
 
 [import ext.qbk]
 
-[section New Libraries]
-
-[/ Example:
-* [phrase library..[@/libs/accumulators/ Accumulators]:] Framework for
-  incremental calculation, and collection of statistical accumulators, from Eric Niebler.
-]
-
-* /TODO/
-
-[endsect]
-
 [section Updated Libraries]
 
-[/ Example:
-* [phrase library..[@/libs/interprocess/ Interprocess]:]
-  * Added anonymous shared memory for UNIX systems.
-  * `shared_ptr` is movable and supports aliasing ([ticket 1234]).
-]
+* [phrase library..[@/libs/atomic/ Atomic]:]
+  * Added the static constant `atomic<T>::is_always_lock_free` for conformance with C++17. The constant indicates that the given specialization always provides lock-free implementation of atomic operations.
+  * Improved support of Oracle Studio on x86 targets.
+  
+* [phrase library..[@/libs/fiber/ Fiber]:]
+  * unbounded_channel and bounded_channel marked as deprecated
+  * new classes buffered_channel and unbuffered_channel
+  * performance improved
+
+* [phrase library..[@/libs/fusion/ Fusion]:]
+  * Fixed `fusion::vector` buggy constructors (Thanks to Lee Clagett).
+  * `BOOST_FUSION_ADAPT*` and `BOOST_FUSION_DEFINE*` now allow empty structures. ([ticket 6592])
+  * `BOOST_FUSION_DEFINE*` allows move constructor and assignment. ([ticket 10099])
+  * Adaptor for `std::array` (Thanks to Mateusz Łoskot). ([ticket 8241])
+  * Fixed returning temporary variable warnings on MSVC.
+
+* [phrase library..[@/libs/functional/hash Hash]:]
+  * Fixed some warnings.
+
+* [phrase library..[@/libs/log/ Log]:]
+  * General changes:
+    * Removed the previously deprecated `type_info_wrapper`.
+  * New features:
+    * Added a way to access the current file name from the text file sink backend. The file name can be obtained with the `get_current_file_name` method.
+  * Bug fixes:
+    * Fixed compilation errors for Android API prior to version 21.
+    * Streaming operators now take scalar types and enums by value. This allows to output static constants and bitfields directly into formatting stream and record stream. ([ticket 11998])
+    * In UDP socket based syslog backend implementation, changed the syslog message format for better compliance with RFC3164.
+    * File close handler installed in text file sink backend is no longer called if the file is not open yet.
+  * See [@/libs/log/doc/html/log/changelog.html changelog] for more details.
+
+* [phrase library..[@/libs/metaparse/ Metaparse]:]
+  * Improved the implementation of `BOOST_METAPARSE_STRING`
+    * The maximal string length limit has been increased to 2048
+    * The maximal string length limit can be extended beyond 2048 by regenerating some of the Boost headers using a script (part of the library)
+    * The string length limit can be changed within a compilation unit
+
+* [phrase library..[@/libs/phoenix/ Phoenix]:]
+  * Most of modules now support C++11 variadic templates.
+  * Fixed type deduction failure with result type.
+  * Suppress unused warnings.
+  * Fixed too few arguments error on binary math functions.
+  * Added workarounds for older compiler.
+
+* [phrase library..[@/libs/python/ Python]:]
+  * Added (basic) support for C++11 (std::shared_ptr, std::unique_ptr)
+  * Incorporated an extension API to wrap [@http://www.numpy.org/ NumPy]
+  * Removed obsolete bits and pieces
+
+* [phrase library..[@/libs/type_index/ TypeIndex]:]
+  * Added `runtime_cast` to the library as an emulation of `dynamic_cast`. Thanks to Chris Glover for the implementation. See [@/doc/html/boost_typeindex_header_reference.html#header.boost.type_index.runtime_cast_hpp runtime_cast reference] for more info.
+  * Internals of the CTTI were made more platform independant, due to change of the `std::size_t` type to `unsigned int`.
+
+* [phrase library..[@/libs/units/ Units]:]
+  * Fix inspection warnings
+  * updated physico-chemical constants to CODATA 2014 values
+  * define biot correctly as 10 Ampere
+
+* [phrase library..[@/libs/unordered/ Unordered]:]
+  * Fix an exception safety issue in assignment.
+  * Use `std::allocator_traits` where available, and support modern
+    style rebind ([ticket 12459]).
+  * Add some allocator aware constructors.
+  * Use the hint iterator in `emplace_hint`.
+  * Fixed some warnings.
+  * See the [@/doc/html/unordered/changes.html changelog] for more details.
 
 * /TODO/
-
-[/ TODO: These libraries always use the same message, referring to their
-   individual release notes. So check if they apply before the beta:
-
-* /TODO/: [phrase library..[@/libs/spirit/ Spirit]:]
-  * Spirit Vx.x, see the
-    '[@/doc/libs/1_xx_x/libs/spirit/doc/html/spirit/what_s_new/spirit_x_x.html What's New]'
-    section for details.
-
-* /TODO/: [phrase library..[@/libs/wave/ Wave]:]
-  * See the [@/libs/wave/ChangeLog Changelog] for details.
-
-]
 
 [endsect]
 
@@ -54,16 +91,74 @@
 
 Boost's primary test compilers are:
 
-* /TODO/
+* Linux:
+  * Clang: 3.0, 3.8.1
+  * Clang, C++11: 3.0, 3.1, 3.2, 3.3, 3.4, 3.8.1
+  * Clang, C++14: 3.5, 3.6, 3.7, 3.8.1
+  * Clang, C++1z: 3.8.1
+  * GCC: 4.4.7, 4.5.3, 4.6.3, 4.7.2, 5.2.0, 6.2.0
+  * GCC, C++11: 4.4.7, 4.7.2, 4.7.3, 4.8.5, 4.9.3, 5.2.0, 6.1.1, 6.2.0
+  * GCC, C++14: 5.2.0, 5.3.0, 6.1.1, 6.2.0
+  * Intel: 16.0, 17.0
+  * Intel, C++11: 16.0, 17.0
+  * Intel, C++14: 16.0, 17.0
+* OS X:
+  * Apple Clang: 7.0.2
+  * Apple Clang, C++11: 7.0.2
+* Windows:
+  * GCC, C++03, mingw: 3.4.5, 4.1.2, 4.2.4, 4.3.3, 4.4.0
+  * GCC, C++11, mingw: 4.6.4, 4.7.3, 4.8.1
+  * GCC, C++14, mingw: 4.9.3, 5.1.0, 5.2.0, 5.3.0, 6.1.0
+  * Visual C++: 7.1, 8.0, 9.0, 10.0, 11.0, 12.0, 14.0
+* Android:
+  * Clang: 3.6, 3.7, 3.8
+  * GCC: 4.9, 5.4, 6.2
+* QNX:
+  * QCC: 4.4.2
+* SunOS:
+  * Oracle Solaris Studio: 12.5
+  * Oracle Solaris Studio, C++11: 12.5
 
 Boost's additional test compilers include:
 
-* /TODO/
+* Linux:
+  * Clang: 3.0, 3.8.1
+  * Clang, C++11: 3.0, 3.1, 3.2, 3.3, 3.4, 3.8.1
+  * Clang, C++14: 3.5, 3.6, 3.7, 3.8.1
+  * Clang, C++1z: 3.8.1
+  * GCC: 4.4.7, 4.5.3, 4.6.3, 4.7.2, 5.2.0, 6.1.1, 6.2.0
+  * GCC, C++11: 4.4.7, 4.7.2, 4.7.3, 4.8.5, 4.9.3, 5.2.0, 6.1.1, 6.2.0
+  * GCC, C++14: 5.2.0, 5.3.0, 6.1.1, 6.2.0, 7.0.0 (experimental)
+  * GCC, C++1z: 6.1.1
+  * Intel: 16.0, 17.0
+  * Intel, C++11: 16.0, 17.0
+  * Intel, C++14: 16.0, 17.0
+* OS X:
+  * Apple Clang: 7.0.2
+  * Apple Clang, C++11: 7.0.2
+* Windows:
+  * GCC, C++03, mingw: 3.4.5, 4.1.2, 4.2.4, 4.3.3, 4.4.0
+  * GCC, C++11, mingw: 4.6.4, 4.7.3, 4.8.1
+  * GCC, C++14, mingw: 4.9.3, 5.1.0, 5.2.0, 5.3.0, 6.1.0
+  * Visual C++: 7.1, 8.0, 9.0, 10.0, 11.0, 12.0, 14.0
+* Android:
+  * Clang: 3.6, 3.7, 3.8
+  * GCC: 4.9, 5.4, 6.2
+  * GCC,C++14: 6.1.0
+* QNX:
+  * QCC: 4.4.2
+* SunOS:
+  * Oracle Solaris Studio: 12.5
+  * Oracle Solaris Studio, C++11: 12.5
 
 [endsect]
 
 [section Acknowledgements]
 
-/TODO/
+[@/users/people/beman_dawes.html Beman Dawes],
+Eric Niebler,
+[@/users/people/rene_rivera.html Rene Rivera],
+Daniel James, Vladimir Prus and Marshall Clow
+managed this release.
 
 [endsect]
