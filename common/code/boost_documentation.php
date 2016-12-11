@@ -21,7 +21,7 @@ class BoostDocumentation
     var $path;
     var $use_http_expire_date;
 
-    static function library_documentation() {
+    static function library_documentation_page() {
         return static::documentation_page(array(
             'fix_dir' => BOOST_FIX_DIR,
             'archive_dir' => STATIC_DIR,
@@ -29,7 +29,7 @@ class BoostDocumentation
         ));
     }
 
-    static function extra_documentation() {
+    static function extra_documentation_page() {
         return static::documentation_page(array(
             'boost-root' => '../libs/release/',
         ));
@@ -308,18 +308,20 @@ function latest_link($filter_data)
         break;
     case 1:
         echo '<div class="boost-common-header-notice">';
-        if (($filter_data->archive_dir && realpath("{$filter_data->archive_dir}/{$current->dir()}/{$filter_data->path}") !== false) ||
+        if (!$filter_data->path ||
+            ($filter_data->archive_dir && realpath("{$filter_data->archive_dir}/{$current->dir()}/{$filter_data->path}") !== false) ||
             ($filter_data->fix_dir && realpath("{$filter_data->fix_dir}/{$current->dir()}/{$filter_data->path}") !== false))
         {
             echo '<a class="boost-common-header-inner" href="/doc/libs/release/',$filter_data->path,'">',
-                "Click here to view the latest version of this page.",
+                "This is the documentation for an old version of Boost.
+                Click here to view this page for the latest version.",
                 '</a>';
         }
         else
         {
             echo '<a class="boost-common-header-inner" href="/doc/libs/">',
-                "This is an old version of boost. ",
-                "Click here for the latest version's documentation home page.",
+                "This is an the documentation for an old version of boost.
+                Click here for the latest Boost documentation.",
                 '</a>';
         }
         echo '</div>', "\n";
