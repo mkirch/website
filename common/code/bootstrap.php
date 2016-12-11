@@ -15,7 +15,6 @@ function error_handler($message) {
     }
     else if (defined('STDERR')) {
         fputs(STDERR, "{$message}\n");
-        fputs(STDERR, print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), true));
     }
     else {
         echo "{$message}\n";
@@ -29,7 +28,15 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 });
 
 set_exception_handler(function($e) {
-    error_handler($e);
+    if ($e instanceof BoostWeb_HttpError && array_key_exists('SERVER_PROTOCOL', $_SERVER)) {
+        try {
+            BoostWeb::return_error($e);
+            return;
+        }
+        catch (Exception $e2) {}
+    }
+
+    error_handler("Uncaught exception: {$e}");
 });
 
 // Fatal errors aren't caught by the error handler, so make sure they
