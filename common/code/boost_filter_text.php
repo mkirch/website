@@ -82,7 +82,7 @@ class BoostFilterText extends BoostFilter
         // extensions.
         if (defined('ENT_SUBSTITUTE')) {
             return htmlentities($text, ENT_SUBSTITUTE, 'UTF-8');
-        } else if (preg_match('//u', $x)) {
+        } else if (preg_match('//u', $text)) {
             return htmlentities($text, ENT_COMPAT, 'UTF-8');
         } else {
             return html_encode(
