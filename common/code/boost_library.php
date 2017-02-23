@@ -51,6 +51,13 @@ class BoostLibrary
         assert(!isset($lib['update-version']));
         assert(isset($lib['key']));
 
+        // Temporary override for Chrono.Stopwatch.
+        // Can be removed once it merges the metadata to master
+        if ($lib['key'] === 'chrono/stopwatch') {
+            $lib['status'] = 'unreleased';
+        }
+
+        // Convert version number to object
         if (!empty($lib['boost-version'])) {
             $lib['boost-version']
                     = BoostVersion::from($lib['boost-version']);
@@ -89,8 +96,16 @@ class BoostLibrary
             }
         }
         if (!empty($lib['category'])) {
-            $lib['category'] = array_map('ucwords', $lib['category']);
+            $lib['category'] = array_map('strtolower', $lib['category']);
             sort($lib['category']);
+        }
+
+        // Capitilize the names
+        if (!empty($lib['name'])) {
+            // Not using ucwords because it messes up uBLAS.
+            $lib['name'] = preg_replace_callback('@\b[a-z](?![A-Z])@',
+                function($matches) { return strtoupper($matches[0]); },
+                $lib['name']);
         }
 
         // Check the status.
