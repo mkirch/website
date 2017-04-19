@@ -216,8 +216,8 @@ class BoostPages {
         if (array_key_exists('release_date', $release_data) && (
                 $section == 'downloads' ||
                 !$release_data['version'] ||
-                $release_data['version']->compare('1.62.0') <= 0
-            )) {
+                $release_data['version']->compare('1.62.0') <= 0))
+        {
             unset($release_data['release_date']);
         }
 
@@ -247,6 +247,16 @@ class BoostPages {
                 'location', 'name', 'key'));
         }
 
+        // Normalize fields with special value types.
+        foreach ($release_data as $key => $value) {
+            if (is_object($value)) {
+                if ($value instanceof DateTime || $value instanceof DateTimeInterface) {
+                    $release_data[$key] = $value->format(DateTime::ATOM);
+                } else {
+                    assert(false);
+                }
+            }
+        }
 
         return $release_data;
     }
@@ -264,13 +274,18 @@ class BoostPages {
     }
 
     function convert_quickbook_pages($mode = 'update') {
-        try {
-            BoostSuperProject::run_process('quickbook --version');
-            $have_quickbook = true;
-        }
-        catch(ProcessError $e) {
-            echo "Problem running quickbook, will not convert quickbook articles.\n";
-            $have_quickbook = false;
+        $have_quickbook = false;
+
+        if (BOOST_QUICKBOOK_EXECUTABLE) {
+            try {
+                BoostSuperProject::run_process(BOOST_QUICKBOOK_EXECUTABLE.' --version');
+                $have_quickbook = true;
+            }
+            catch(ProcessError $e) {
+                echo "Problem running quickbook, will not convert quickbook articles.\n";
+            }
+        } else {
+            echo "BOOST_QUICKBOOK_EXECUTABLE is empty, will not convert quickbook articles.\n";
         }
 
         $in_progress_release_notes = array();
@@ -409,7 +424,7 @@ class BoostPages {
         $xml_filename = tempnam(sys_get_temp_dir(), 'boost-qbk-');
         try {
             echo "Converting ", $page, ":\n";
-            BoostSuperProject::run_process("quickbook --output-file {$xml_filename} -I {$this->root}/feed {$this->root}/{$page}");
+            BoostSuperProject::run_process(BOOST_QUICKBOOK_EXECUTABLE." --output-file {$xml_filename} -I {$this->root}/feed {$this->root}/{$page}");
             $values = $bb_parser->parse($xml_filename);
             $boostbook_values = array(
                 'hash' => $hash,
